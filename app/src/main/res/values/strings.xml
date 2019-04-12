@@ -16,4 +16,7 @@
     <string name="loginOrcreate">Log in or Create account using email</string>
     <string name="facebook">Facebook</string>
     <string name="google">Google</string>
+    <string name="title_upcoming_trips">Upcoming</string>
+    <string name="title_history">History</string>
+    <string name="title_profile">Profile</string>
 </resources>
