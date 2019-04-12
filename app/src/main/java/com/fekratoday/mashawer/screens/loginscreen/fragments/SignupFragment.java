@@ -20,7 +20,9 @@ public class SignupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("Create Account");
         return inflater.inflate(R.layout.fragment_signup, container, false);
+
     }
 
 }

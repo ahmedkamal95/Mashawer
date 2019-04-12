@@ -3,4 +3,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="userName">User Name</string>
+    <string name="password">Password</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="createAccount">\u0020Create Account</string>
+    <string name="haveAccount">Have Account? \u0020</string>
+    <string name="login">\u0020Log in</string>
+    <string name="notMemberYet">Not a member yet? \u0020</string>
+    <string name="or">OR</string>
+    <string name="loginOrSignup">Log in or Sign up with</string>
+    <string name="loginOrcreate">Log in or Create account using email</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
 </resources>
