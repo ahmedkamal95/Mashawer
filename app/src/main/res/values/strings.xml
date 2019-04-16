@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">Mashawer</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email</string>
     <string name="userName">User Name</string>
     <string name="password">Password</string>
     <string name="confirmPassword">Confirm Password</string>
     <string name="createAccount">\u0020Create Account</string>
-    <string name="haveAccount">Have Account? \u0020</string>
+    <string name="haveAccount">Have an Account? \u0020</string>
     <string name="login">\u0020Log in</string>
     <string name="notMemberYet">Not a member yet? \u0020</string>
     <string name="or">OR</string>
@@ -18,7 +19,17 @@
     <string name="title_upcoming_trips">Upcoming</string>
     <string name="title_history">History</string>
     <string name="title_profile">Profile</string>
-
+    <string name="Save">Save</string>
+    <string name="TripInformation">Trip Information</string>
+    <string name="TripName">Trip Name</string>
+    <string name="startPoint">Trip Start Point</string>
+    <string name="endPoint">Trip End Point</string>
+    <string name="tripDateTime">Trip Time and Date</string>
+    <string name="tripTime">Trip Time</string>
+    <string name="tripDate">Trip Date</string>
+    <string name="tripNotes">Trip Notes</string>
+    <string name="addTrip">ADD TRIP</string>
     <string name="facebook_app_id">801810603535404</string>
     <string name="fb_login_protocol_scheme">fb801810603535404</string>
+
 </resources>
