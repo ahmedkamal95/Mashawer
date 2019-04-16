@@ -11,33 +11,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-<<<<<<< HEAD
-        android:theme="@style/AppTheme">
-        <activity android:name=".screens.addtripscreen.AddTripActivity"></activity>
-        <activity android:name=".screens.loginscreen.LoginActivity" >
-=======
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".screens.loginscreen.LoginActivity"
             android:noHistory="true">
->>>>>>> 07121b3455faaa4c8bc81d97439b18a6032ee7c2
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name=".screens.splashscreen.SplashScreenActivity" />
-        <activity android:name=".screens.homescreen.HomeActivity">
-
-        </activity>
-=======
-        <activity android:name=".screens.addtripscreen.AddTripActivity" />
-        <activity android:name=".screens.splashscreen.SplashScreenActivity" />
-        <activity android:name=".screens.homescreen.HomeActivity" />
-
+        <activity android:name=".screens.homescreen.HomeActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -59,7 +45,6 @@
             </intent-filter>
         </activity>
 
->>>>>>> 07121b3455faaa4c8bc81d97439b18a6032ee7c2
     </application>
 
 </manifest>
