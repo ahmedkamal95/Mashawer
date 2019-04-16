@@ -1,4 +1,4 @@
-package com.fekratoday.mashawer.screens.homescreen.fragments;
+package com.fekratoday.mashawer.screens.homescreen.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -17,7 +17,7 @@ import java.util.List;
 public class TripsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Trip> tripList;
 
-    TripsViewAdapter(List<Trip> tripList) {
+    public TripsViewAdapter(List<Trip> tripList) {
         this.tripList = tripList;
     }
 

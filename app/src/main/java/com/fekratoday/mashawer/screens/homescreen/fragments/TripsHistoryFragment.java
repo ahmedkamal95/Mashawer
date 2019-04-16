@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.screens.homescreen.adapters.TripsViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
