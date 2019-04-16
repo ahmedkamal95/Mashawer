@@ -19,4 +19,14 @@
     <string name="title_upcoming_trips">Upcoming</string>
     <string name="title_history">History</string>
     <string name="title_profile">Profile</string>
+    <string name="Save">Save</string>
+    <string name="TripInformation">Trip Information</string>
+    <string name="TripName">Trip Name</string>
+    <string name="startPoint">Trip Start Point</string>
+    <string name="endPoint">Trip End Point</string>
+    <string name="tripDateTime">Trip Time and Date</string>
+    <string name="tripTime">Trip Time</string>
+    <string name="tripDate">Trip Date</string>
+    <string name="tripNotes">Trip Notes</string>
+    <string name="addTrip">ADD TRIP</string>
 </resources>
