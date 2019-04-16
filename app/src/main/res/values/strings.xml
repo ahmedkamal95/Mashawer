@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Mashawer</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email</string>
     <string name="userName">User Name</string>
@@ -19,4 +18,7 @@
     <string name="title_upcoming_trips">Upcoming</string>
     <string name="title_history">History</string>
     <string name="title_profile">Profile</string>
+
+    <string name="facebook_app_id">801810603535404</string>
+    <string name="fb_login_protocol_scheme">fb801810603535404</string>
 </resources>
