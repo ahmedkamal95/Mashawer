@@ -79,7 +79,7 @@ public class Trip {
         this.notesList = notesList;
     }
 
-    private class Note{
+    public class Note{
 
         private String noteBody;
         private boolean doneState;

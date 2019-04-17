@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.model.database.TripDaoContract;
+import com.fekratoday.mashawer.model.database.TripDaoPresenterImpl;
 import com.fekratoday.mashawer.screens.homescreen.adapters.TripsViewAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class TripsHistoryFragment extends Fragment {
     private RecyclerView.LayoutManager manager;
     private RecyclerView tripsView;
     private List<Trip> tripList;
+    private TripDaoContract tripDaoContract;
 
     public TripsHistoryFragment() {
     }
@@ -39,6 +41,8 @@ public class TripsHistoryFragment extends Fragment {
 //        tripList.add(new Trip("ITI","ITI ITI ITI"));
 //        tripList.add(new Trip("Aurgada","Aurgada Aurgada Aurgada"));
 
+        tripDaoContract = new TripDaoPresenterImpl();
+        tripList = tripDaoContract.getallTrips();
         manager = new LinearLayoutManager(getContext());
         tripsView.setLayoutManager(manager);
         tripsAdapter = new TripsViewAdapter(tripList);
