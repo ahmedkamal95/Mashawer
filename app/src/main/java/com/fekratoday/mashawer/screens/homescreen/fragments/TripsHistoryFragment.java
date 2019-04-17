@@ -34,10 +34,10 @@ public class TripsHistoryFragment extends Fragment {
         View tripHistoryFragmentView = inflater.inflate(R.layout.fragment_trips_history, container, false);
         tripsView = tripHistoryFragmentView.findViewById(R.id.tripsView);
         tripList = new ArrayList<>();
-        tripList.add(new Trip("Aswan","aswan aswan aswan"));
-        tripList.add(new Trip("Luxur","Luxur Luxur Luxur"));
-        tripList.add(new Trip("ITI","ITI ITI ITI"));
-        tripList.add(new Trip("Aurgada","Aurgada Aurgada Aurgada"));
+//        tripList.add(new Trip("Aswan","aswan aswan aswan"));
+//        tripList.add(new Trip("Luxur","Luxur Luxur Luxur"));
+//        tripList.add(new Trip("ITI","ITI ITI ITI"));
+//        tripList.add(new Trip("Aurgada","Aurgada Aurgada Aurgada"));
 
         manager = new LinearLayoutManager(getContext());
         tripsView.setLayoutManager(manager);

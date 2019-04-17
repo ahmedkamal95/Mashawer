@@ -32,9 +32,9 @@ public class TripsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         TextView titleView = viewHolder.itemView.findViewById(R.id.titleView);
-        titleView.setText(tripList.get(i).getTitle());
+        titleView.setText(tripList.get(i).getName());
         TextView detailsView =viewHolder.itemView.findViewById(R.id.detailsView);
-        detailsView.setText(tripList.get(i).getDetails());
+        detailsView.setText(tripList.get(i).getStartPoint());
     }
 
     @Override
