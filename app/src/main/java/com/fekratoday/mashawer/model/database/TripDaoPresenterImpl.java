@@ -6,22 +6,22 @@ import java.util.List;
 
 public class TripDaoPresenterImpl implements TripDaoContract{
 
-    TripDao tripDao;
+    TripDaoFirebase tripDaoFirebase;
 
     public TripDaoPresenterImpl(){
-        tripDao = new TripDao();
+        tripDaoFirebase = new TripDaoFirebase();
     }
     @Override
     public boolean addTrip(Trip trip) {
 
-        boolean inserted = tripDao.insertTrip(trip);
+        boolean inserted = tripDaoFirebase.insertTrip(trip);
         return inserted;
     }
 
     @Override
     public List<Trip> getallTrips() {
 
-        List<Trip> tripList = tripDao.getAllTrips();
+        List<Trip> tripList = tripDaoFirebase.getAllTrips();
         return tripList;
     }
 }
