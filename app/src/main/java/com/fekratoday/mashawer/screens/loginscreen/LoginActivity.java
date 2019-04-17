@@ -46,9 +46,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         MainLoginFragment mainLoginFragment = new MainLoginFragment();
         LoginFragment loginFragment = new LoginFragment();
         SignupFragment signupFragment = new SignupFragment();
-//        transaction.add(R.id.frame, mainLoginFragment, "mainLoginFragment");
+        transaction.add(R.id.frame, mainLoginFragment, "mainLoginFragment");
 //        transaction.add(R.id.frame, loginFragment, "loginFragment");
-        transaction.add(R.id.frame, signupFragment, "signupFragment");
+//        transaction.add(R.id.frame, signupFragment, "signupFragment");
         transaction.commit();
     }
 

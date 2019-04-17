@@ -14,7 +14,7 @@ import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
 import com.fekratoday.mashawer.model.database.TripDaoContract;
 import com.fekratoday.mashawer.model.database.TripDaoPresenterImpl;
-
+import com.fekratoday.mashawer.screens.homescreen.adapters.TripsViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
