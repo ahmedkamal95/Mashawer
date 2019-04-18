@@ -42,7 +42,7 @@ public class NoteDaoSQL {
         myDBHelper.close();
     }
 
-    public Trip.Note createNote(String noteBody, boolean done, int companyId) {
+    public Trip.Note insertNote(String noteBody, boolean done, int companyId) {
 
         ContentValues values = new ContentValues();
         values.put(MyDBHelper.NOTE_BODY, noteBody);
@@ -59,14 +59,14 @@ public class NoteDaoSQL {
         return newNote;
     }
 
-    public void deleteEmployee(Trip.Note note) {
+    public void deleteNote(Trip.Note note) {
         long id = note.getId();
         System.out.println("the deleted employee has the id: " + id);
         database.delete(MyDBHelper.NOTE_TABLE, MyDBHelper.NOTE_ID
                 + " = " + id, null);
     }
 
-    public List<Trip.Note> getAllEmployees() {
+    public List<Trip.Note> getAllNotes() {
         List<Trip.Note> notesList = new ArrayList<>();
 
         Cursor cursor = database.query(MyDBHelper.NOTE_TABLE, allColumns,
