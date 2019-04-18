@@ -39,7 +39,7 @@ public class TripDaoSQL {
         myDBHelper.close();
     }
 
-    public Trip insertTrip(String name, String startPoint, String endPoint, long time, boolean oneWayTrip,
+    public int insertTrip(String name, String startPoint, String endPoint, long time, boolean oneWayTrip,
                            boolean repeated, boolean started){
 
         ContentValues values = new ContentValues();
@@ -50,13 +50,13 @@ public class TripDaoSQL {
         values.put(MyDBHelper.ONE_WAY_TRIP, oneWayTrip);
         values.put(MyDBHelper.REPEATED, repeated);
         values.put(MyDBHelper.STARTED, started);
-        long id = database.insert(MyDBHelper.TRIP_TABLE, null , values);
+        int id = (int) database.insert(MyDBHelper.TRIP_TABLE, null , values);
         Cursor cursor = database.query(MyDBHelper.TRIP_TABLE,
                 allColumns, MyDBHelper.TRIP_ID +" = "+ id , null, null, null, null);
         cursor.moveToFirst();
         Trip newTrip = cursorToTrip(cursor);
         cursor.close();
-        return newTrip;
+        return id;
     }
 
     public void deleteTrip(Trip trip) {
@@ -65,17 +65,15 @@ public class TripDaoSQL {
         List<Trip.Note> notesList = noteDao.getNotesOfTrip(id);
         if (notesList != null && !notesList.isEmpty()) {
             for (Trip.Note note : notesList) {
-                noteDao.deleteEmployee(note);
+                noteDao.deleteNote(note);
             }
         }
-
-        System.out.println("the deleted company has the id: " + id);
         database.delete(MyDBHelper.TRIP_TABLE, MyDBHelper.TRIP_ID
                 + " = " + id, null);
     }
 
-    public List<Trip> getAllCompanies() {
-        List<Trip> tripsList = new ArrayList<Trip>();
+    public List<Trip> getAllTrips() {
+        List<Trip> tripsList = new ArrayList<>();
 
         Cursor cursor = database.query(MyDBHelper.TRIP_TABLE, allColumns,
                 null, null, null, null, null);
