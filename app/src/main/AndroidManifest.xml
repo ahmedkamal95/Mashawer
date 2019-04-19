@@ -25,15 +25,16 @@
         <activity
             android:name=".screens.loginscreen.LoginActivity"
             android:noHistory="true">
+        </activity>
+        <activity android:name=".screens.splashscreen.SplashScreenActivity" />
+        <activity android:name=".screens.homescreen.HomeActivity" />
+        <activity android:name=".screens.addtripscreen.AddTripActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.splashscreen.SplashScreenActivity" />
-        <activity android:name=".screens.homescreen.HomeActivity" />
-        <activity android:name=".screens.addtripscreen.AddTripActivity" />
         <activity
             android:name=".screens.alarmscreen.AlarmActivity"
             android:excludeFromRecents="true"

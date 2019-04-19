@@ -13,14 +13,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripDao {
+public class TripDaoFirebase {
 
     FirebaseDatabase database;
     DatabaseReference myRef;
     FirebaseUser user;
     String userId;
 
-    public TripDao() {
+    public TripDaoFirebase() {
         user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
         database = FirebaseDatabase.getInstance();
