@@ -14,6 +14,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
+import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.utilities.AlarmHelper;
 import com.fekratoday.mashawer.utilities.DatePickerFragment;
 import com.fekratoday.mashawer.utilities.TimePickerFragment;
 import com.google.android.gms.common.api.Status;
@@ -22,20 +24,27 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddTripActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private PlaceAutocompleteFragment startPlaceAutocompleteFragment, endPlaceAutocompleteFragment;
     private Calendar calendar;
     private TextView tripTime,tripDate;
-
+    private List<Trip.Note> noteList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
 
+        noteList = new ArrayList<>();
         calendar = Calendar.getInstance();
+
+        findViewById(R.id.btnAdd).setOnClickListener(v -> {
+            AlarmHelper.setAlarm(this,null,calendar);
+        });
 
         initPlaceSearch();
 
@@ -99,9 +108,12 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
     public void addNote(View v){
         EditText noteView = findViewById(R.id.noteField);
         TextView noteAddedNote = new TextView(AddTripActivity.this);
-        LinearLayout noteList=findViewById(R.id.noteList);
+        LinearLayout noteListView=findViewById(R.id.noteList);
         noteAddedNote.setText(noteView.getText());
-        noteList.addView(noteAddedNote);
+        Trip.Note note = new Trip.Note();
+        note.setNoteBody(noteView.getText().toString());
+        noteList.add(note);
+        noteListView.addView(noteAddedNote);
     }
 
     public void showDatePickerDialog(View v) {

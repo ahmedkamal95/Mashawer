@@ -39,20 +39,23 @@ public class TripDaoSQL {
         myDBHelper.close();
     }
 
-    public int insertTrip(String name, String startPoint, String endPoint, long time, boolean oneWayTrip,
-                           boolean repeated, boolean started){
+    public int insertTrip(Trip trip){
 
         ContentValues values = new ContentValues();
-        values.put(MyDBHelper.NAME, name);
-        values.put(MyDBHelper.START_POINT, startPoint);
-        values.put(MyDBHelper.END_POINT, endPoint);
-        values.put(MyDBHelper.TIME, time);
-        values.put(MyDBHelper.ONE_WAY_TRIP, oneWayTrip);
-        values.put(MyDBHelper.REPEATED, repeated);
-        values.put(MyDBHelper.STARTED, started);
+        values.put(MyDBHelper.NAME, trip.getName());
+        values.put(MyDBHelper.START_POINT, trip.getStartPoint());
+        values.put(MyDBHelper.END_POINT, trip.getEndPoint());
+        values.put(MyDBHelper.TIME, trip.getTime());
+        values.put(MyDBHelper.ONE_WAY_TRIP, trip.getOneWayTrip());
+        values.put(MyDBHelper.REPEATED, trip.getRepeated());
+        values.put(MyDBHelper.STARTED, trip.getStarted());
         int id = (int) database.insert(MyDBHelper.TRIP_TABLE, null , values);
         Cursor cursor = database.query(MyDBHelper.TRIP_TABLE,
                 allColumns, MyDBHelper.TRIP_ID +" = "+ id , null, null, null, null);
+        NoteDaoSQL dao = new NoteDaoSQL(context);
+        for(Trip.Note note : trip.getNotesList()) {
+            dao.insertNote(note.getNoteBody(), note.getDoneState(), id);
+        }
         cursor.moveToFirst();
         Trip newTrip = cursorToTrip(cursor);
         cursor.close();
