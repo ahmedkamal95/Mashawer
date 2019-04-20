@@ -11,7 +11,7 @@ public interface AlarmContract {
     }
 
     interface Presenter {
-        void startTrip(Trip trip, int tripId);
+        void startTrip(Trip trip);
 
         void snoozeTrip(Trip trip, int tripId);
 

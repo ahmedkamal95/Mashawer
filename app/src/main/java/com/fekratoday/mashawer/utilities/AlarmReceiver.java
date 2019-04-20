@@ -14,9 +14,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        int id = intent.getIntExtra("tripId", 0);
         Intent intent1 = new Intent(context, AlarmActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent1.putExtra("tripId", intent.getIntExtra("tripId", 0));
+        intent1.putExtra("tripId", id);
+        Toast.makeText(context,id+"" , Toast.LENGTH_SHORT).show();
         context.startActivity(intent1);
     }
 }

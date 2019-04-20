@@ -5,68 +5,9 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <!--<android.support.constraint.ConstraintLayout-->
-
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--tools:context=".screens.addtripscreen.AddTripActivity">-->
-
-    <!--<android.support.v7.widget.CardView-->
-    <!--android:id="@+id/cardView"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginStart="16dp"-->
-    <!--android:layout_marginTop="40dp"-->
-    <!--android:layout_marginEnd="16dp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="1.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="vertical"-->
-    <!--android:weightSum="4">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/textView9"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:text="@string/TripInformation" />-->
-
-    <!--<android.support.design.widget.TextInputLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginLeft="20dp"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--android:layout_marginRight="20dp"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:layout_weight="1"-->
-    <!--app:errorEnabled="true"-->
-    <!--app:hintAnimationEnabled="true">-->
-
-    <!--<android.support.design.widget.TextInputEditText-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:hint="@string/TripName"-->
-    <!--android:inputType="textEmailAddress" />-->
-    <!--</android.support.design.widget.TextInputLayout>-->
-
-    <!--<fragment-->
-    <!--android:id="@+id/place_autocomplete_fragment_from"-->
-    <!--android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="8dp" />-->
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
@@ -108,14 +49,15 @@
                     app:hintAnimationEnabled="true">
 
                     <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edtTripName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/TripName"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="text" />
                 </android.support.design.widget.TextInputLayout>
 
                 <fragment
-                    android:id="@+id/place_autocomplete_fragment_from"
+                    android:id="@+id/fragStartPoint"
                     android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +68,7 @@
                     android:layout_weight="1" />
 
                 <fragment
-                    android:id="@+id/place_autocomplete_fragment_to"
+                    android:id="@+id/fragEndPoint"
                     android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,41 +78,6 @@
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1" />
 
-                <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_weight="1"-->
-                <!--app:errorEnabled="true"-->
-                <!--app:hintAnimationEnabled="true">-->
-
-                <!--<android.support.design.widget.TextInputEditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:hint="@string/startPoint"-->
-                <!--android:inputType="textEmailAddress" />-->
-                <!--</android.support.design.widget.TextInputLayout>-->
-
-                <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_weight="1"-->
-                <!--app:errorEnabled="true"-->
-                <!--app:hintAnimationEnabled="true">-->
-
-                <!--<android.support.design.widget.TextInputEditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:hint="@string/endPoint"-->
-                <!--android:inputType="textEmailAddress" />-->
-                <!--</android.support.design.widget.TextInputLayout>-->
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -193,113 +100,6 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:weightSum="3">
-
-                <!--<TextView-->
-                <!--android:id="@+id/textView5"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="@string/tripDateTime" />-->
-
-                <!--<Button-->
-                <!--android:id="@+id/time"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="time" />-->
-
-                <!--<Button-->
-                <!--android:id="@+id/date"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="date" />-->
-
-                <!--&lt;!&ndash;<android.support.design.widget.TextInputLayout&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="0dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginLeft="20dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginTop="8dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginRight="20dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginBottom="8dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:errorEnabled="true"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:hintAnimationEnabled="true">&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<android.support.design.widget.TextInputEditText&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:inputType="date"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:hint="@string/tripDate"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;</android.support.design.widget.TextInputLayout>&ndash;&gt;-->
-                <!--&lt;!&ndash;<android.support.design.widget.TextInputLayout&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="0dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginLeft="20dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginTop="8dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginRight="20dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginBottom="8dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:errorEnabled="true"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:hintAnimationEnabled="true">&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<android.support.design.widget.TextInputEditText&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:hint="@string/tripTime"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:inputType="time"/>&ndash;&gt;-->
-                <!--&lt;!&ndash;</android.support.design.widget.TextInputLayout>&ndash;&gt;-->
-                <!--</LinearLayout>-->
-                <!--</android.support.v7.widget.CardView>-->
-
-                <!--<android.support.v7.widget.CardView-->
-                <!--android:id="@+id/cardView3"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginStart="16dp"-->
-                <!--android:layout_marginTop="32dp"-->
-                <!--android:layout_marginEnd="16dp"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintHorizontal_bias="0.81"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/cardView2">-->
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/textView8"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="@string/tripNotes" />-->
-
-                <!--<CheckBox-->
-                <!--android:id="@+id/checkBox"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="CheckBox" />-->
-
-                <!--</LinearLayout>-->
-                <!--</android.support.v7.widget.CardView>-->
-
-                <!--<Button-->
-                <!--android:id="@+id/button"-->
-                <!--android:layout_width="90dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--=======-->
 
                 <TextView
                     android:id="@+id/textView5"
@@ -455,9 +255,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
-        <!--</android.support.constraint.ConstraintLayout>-->
-        <!--</ScrollView>-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/cardView3"-->
-        <!--android:gravity="center"/>-->
     </LinearLayout>
-</ScrollView><!--</android.support.constraint.ConstraintLayout>--><!--&gt;>>>>>> 4cb0889f3de9a68661cd2417158843dac896a4d7-->
+</ScrollView>

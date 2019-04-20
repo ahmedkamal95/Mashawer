@@ -26,7 +26,7 @@ public class TripsHistoryPresenterImpl implements TripsHistoryContract {
     @Override
     public void deleteTripSQLite(Trip trip) {
 
-        tripDaoSQL.deleteTrip(trip);
+        tripDaoSQL.deleteTrip(trip.getId());
     }
 
     @Override

@@ -13,26 +13,23 @@ import java.util.Calendar;
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 
 public class AlarmHelper {
-    public static void setAlarm(Context context, Trip trip, Calendar calendar) {
+    public static void setAlarm(Context context, int tripId, Calendar calendar) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        intent.putExtra("tripId", 1);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if (calendar.before(Calendar.getInstance())) {
-            Toast.makeText(context, "errrrror", Toast.LENGTH_SHORT).show();
-        } else {
-            if (alarmManager != null) {
-                if (android.os.Build.VERSION.SDK_INT >= 19) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                }
+        intent.putExtra("tripId", tripId);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tripId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Toast.makeText(context, "done alarm", Toast.LENGTH_SHORT).show();
+        if (alarmManager != null) {
+            if (android.os.Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             } else {
-                Toast.makeText(context, "Error Please Try Again", Toast.LENGTH_SHORT).show();
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
+        } else {
+            Toast.makeText(context, "Error Please Try Again", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public static void cancelAlarm(Context context, int tripId) {

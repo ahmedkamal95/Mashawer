@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -44,8 +45,9 @@ public class NotificationHelper {
 
     public void createNotification(Trip trip) {
         Intent alarmIntent = new Intent(context, AlarmActivity.class);
-        alarmIntent.putExtra("tripId", 1);
-        notificationManager.notify(1, new Builder(context, channelID)
+        alarmIntent.putExtra("tripId", trip.getId());
+        long[] pattern = {500, 500};
+        notificationManager.notify(trip.getId(), new Builder(context, channelID)
                 .setOngoing(true)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_notification)
@@ -53,12 +55,13 @@ public class NotificationHelper {
                 .setAutoCancel(false)
                 .setDefaults(5)
                 .setContentInfo("Info")
-                .setContentTitle("New Trip on hold")
+                .setContentTitle("Trip on hold")
                 .setStyle(new NotificationCompat.BigTextStyle())
-                .setLights(-16776961, 500, 500)
-                .setContentText(" waiting to start ")
+                .setLights(Color.BLUE, 500, 500)
+                .setVibrate(pattern)
+                .setContentText(trip.getName() + " waiting to start")
                 .setPriority(2)
-                .setContentIntent(PendingIntent.getActivity(context, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT))
+                .setContentIntent(PendingIntent.getActivity(context, trip.getId(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .build());
     }
 }

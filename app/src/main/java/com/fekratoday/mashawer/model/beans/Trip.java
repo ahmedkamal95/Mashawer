@@ -1,8 +1,5 @@
 package com.fekratoday.mashawer.model.beans;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class Trip {
@@ -10,25 +7,41 @@ public class Trip {
     private int id;
     private String name;
     private String startPoint;
+    private double startPointLatitude;
+    private double startPointLongitude;
     private String endPoint;
-    private long time;
+    private double endPointLatitude;
+    private double endPointLongitude;
+    private int hour;
+    private int minute;
+    private int day;
+    private int month;
+    private int year;
     private boolean oneWayTrip;
     private boolean repeated;
-    private boolean started;
+    private boolean tripState;
     private List<Note> notesList;
 
-    public  Trip(){
-
+    public Trip() {
     }
-    public Trip(int id, String name, String startPoint, String endPoint, long time, boolean oneWayTrip, boolean repeated, boolean started, List<Note> notesList) {
+
+    public Trip(int id, String name, String startPoint, double startPointLatitude, double startPointLongitude, String endPoint, double endPointLatitude, double endPointLongitude, int hour, int minute, int day, int month, int year, boolean oneWayTrip, boolean repeated, boolean tripState, List<Note> notesList) {
         this.id = id;
         this.name = name;
         this.startPoint = startPoint;
+        this.startPointLatitude = startPointLatitude;
+        this.startPointLongitude = startPointLongitude;
         this.endPoint = endPoint;
-        this.time = time;
+        this.endPointLatitude = endPointLatitude;
+        this.endPointLongitude = endPointLongitude;
+        this.hour = hour;
+        this.minute = minute;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.oneWayTrip = oneWayTrip;
         this.repeated = repeated;
-        this.started = started;
+        this.tripState = tripState;
         this.notesList = notesList;
     }
 
@@ -56,6 +69,22 @@ public class Trip {
         this.startPoint = startPoint;
     }
 
+    public double getStartPointLatitude() {
+        return startPointLatitude;
+    }
+
+    public void setStartPointLatitude(double startPointLatitude) {
+        this.startPointLatitude = startPointLatitude;
+    }
+
+    public double getStartPointLongitude() {
+        return startPointLongitude;
+    }
+
+    public void setStartPointLongitude(double startPointLongitude) {
+        this.startPointLongitude = startPointLongitude;
+    }
+
     public String getEndPoint() {
         return endPoint;
     }
@@ -64,23 +93,63 @@ public class Trip {
         this.endPoint = endPoint;
     }
 
-    public long getTime() {
-        return time;
+    public double getEndPointLatitude() {
+        return endPointLatitude;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setEndPointLatitude(double endPointLatitude) {
+        this.endPointLatitude = endPointLatitude;
     }
 
-    public boolean getRepeated() {
-        return repeated;
+    public double getEndPointLongitude() {
+        return endPointLongitude;
     }
 
-    public void setRepeated(boolean repeated) {
-        this.repeated = repeated;
+    public void setEndPointLongitude(double endPointLongitude) {
+        this.endPointLongitude = endPointLongitude;
     }
 
-    public boolean getOneWayTrip() {
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public boolean isOneWayTrip() {
         return oneWayTrip;
     }
 
@@ -88,12 +157,20 @@ public class Trip {
         this.oneWayTrip = oneWayTrip;
     }
 
-    public boolean getStarted() {
-        return started;
+    public boolean isRepeated() {
+        return repeated;
     }
 
-    public void setStarted(boolean started) {
-        this.started = started;
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
+    }
+
+    public boolean isTripState() {
+        return tripState;
+    }
+
+    public void setTripState(boolean tripState) {
+        this.tripState = tripState;
     }
 
     public List<Note> getNotesList() {
@@ -104,14 +181,14 @@ public class Trip {
         this.notesList = notesList;
     }
 
-    public static class Note{
+    public static class Note {
 
         private int id;
         private String noteBody;
         private boolean doneState;
         private int tripId;
 
-        public  Note(){
+        public Note() {
 
         }
 
