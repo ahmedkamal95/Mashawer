@@ -3,7 +3,6 @@ package com.fekratoday.mashawer.screens.addtripscreen;
 import android.content.Context;
 
 import com.fekratoday.mashawer.model.beans.Trip;
-import com.fekratoday.mashawer.model.database.NoteDaoSQL;
 import com.fekratoday.mashawer.model.database.TripDaoFirebase;
 import com.fekratoday.mashawer.model.database.TripDaoSQL;
 
@@ -18,10 +17,10 @@ public class AddTripPresenterImpl implements AddTripContract {
     }
 
     @Override
-    public boolean addTripFirebase(Trip trip) {
+    public void addTripFirebase(Trip trip) {
 
-        boolean inserted = tripDaoFirebase.insertTrip(trip);
-        return inserted;
+        tripDaoFirebase.insertTrip(trip);
+//        return inserted;
     }
 
     @Override

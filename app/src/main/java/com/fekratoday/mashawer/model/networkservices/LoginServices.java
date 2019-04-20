@@ -1,9 +1,10 @@
 package com.fekratoday.mashawer.model.networkservices;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -30,23 +31,31 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class LoginServices implements LoginServicesInterface {
 
     private static LoginServices instance = null;
-
+    private static final String PRENS_NAME = "UserData";
     private static final String TAG = "LoginServices";
     private static final int RC_SIGN_IN = 1;
     private FirebaseAuth mAuth;
     private CallbackManager mCallbackManager;
     private LoginContract.View view;
     private LoginContract.Presenter loginPresenter;
+    SharedPreferences userData;
+    SharedPreferences.Editor editor;
+    FirebaseUser user;
+    String userId;
 
-    private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter) {
+    private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter, Context context) {
         this.view = view;
         this.loginPresenter = loginPresenter;
         mAuth = FirebaseAuth.getInstance();
+        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
+        editor = userData.edit();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userId = user.getUid();
     }
 
-    public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter) {
+    public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter, Context context) {
         if (instance == null) {
-            instance = new LoginServices(view, loginPresenter);
+            instance = new LoginServices(view, loginPresenter, context);
         }
         return instance;
     }
@@ -88,6 +97,12 @@ public class LoginServices implements LoginServicesInterface {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithEmail:success");
                         loginPresenter.login(mAuth.getCurrentUser());
+                        if(userData.getString("userId", null).equals(userId)){
+                            
+                        }else {
+                            editor.putString("userId", userId);
+                            editor.commit();
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());

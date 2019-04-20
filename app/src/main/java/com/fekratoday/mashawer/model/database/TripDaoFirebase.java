@@ -27,11 +27,24 @@ public class TripDaoFirebase {
         myRef = database.getReference("users").child(userId).child("trips");
     }
 
-    public boolean insertTrip(Trip trip) {
+    public void insertTrip(Trip trip) {
 
         boolean inserted = false;
-        myRef.child(myRef.push().getKey()).setValue(trip);
-        return inserted;
+        myRef.child("trip"+trip.getId()).setValue(trip);
+//        return inserted;
+    }
+
+    public void updateTrip(Trip trip) {
+
+        boolean inserted = false;
+        myRef.child("trip"+trip.getId()).setValue(trip);
+//        return inserted;
+    }
+
+    public void deleteTrip(Trip trip) {
+
+        myRef.child("trip"+trip.getId()).removeValue();
+
     }
 
     public List<Trip> getAllTrips() {
