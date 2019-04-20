@@ -43,19 +43,19 @@ public class LoginServices implements LoginServicesInterface {
     FirebaseUser user;
     String userId;
 
-    private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter, Context context) {
+    private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter) {
         this.view = view;
         this.loginPresenter = loginPresenter;
         mAuth = FirebaseAuth.getInstance();
-        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
+//        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE); need context
         editor = userData.edit();
         user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
     }
 
-    public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter, Context context) {
+    public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter) {
         if (instance == null) {
-            instance = new LoginServices(view, loginPresenter, context);
+            instance = new LoginServices(view, loginPresenter);
         }
         return instance;
     }
@@ -98,7 +98,7 @@ public class LoginServices implements LoginServicesInterface {
                         Log.d(TAG, "signInWithEmail:success");
                         loginPresenter.login(mAuth.getCurrentUser());
                         if(userData.getString("userId", null).equals(userId)){
-                            
+
                         }else {
                             editor.putString("userId", userId);
                             editor.commit();
