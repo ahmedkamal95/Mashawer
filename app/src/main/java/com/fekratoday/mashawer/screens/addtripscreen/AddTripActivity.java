@@ -52,22 +52,25 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
         calendar = Calendar.getInstance();
         trip = new Trip();
         addTripContract = new AddTripPresenterImpl(this);
+        initPlaceSearch();
 
         findViewById(R.id.btnAdd).setOnClickListener(v -> {
             if (checkData()) {
-                boolean enterted = addTripContract.addTripSQLite(trip);
-                if (enterted) {
-                    AlarmHelper.setAlarm(this, trip.getId(), calendar);
+                int tripId = addTripContract.addTripSQLite(trip);
+                if (tripId > -1) {
+                    AlarmHelper.setAlarm(this, tripId, calendar);
                     Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
                     finish();
-                    if(CheckInternetConnection.getInstance(this).checkInternet()){
-                        addTripContract.addTripFirebase(trip);
+                    if (CheckInternetConnection.getInstance(this).checkInternet()) {
+
+                        /* Error when add trip */
+//                        addTripContract.addTripFirebase(trip);
+
                     }
                 }
             }
         });
 
-        initPlaceSearch();
 
     }
 

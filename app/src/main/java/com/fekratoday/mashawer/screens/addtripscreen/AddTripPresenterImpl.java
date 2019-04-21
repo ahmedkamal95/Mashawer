@@ -24,10 +24,8 @@ public class AddTripPresenterImpl implements AddTripContract {
     }
 
     @Override
-    public boolean addTripSQLite(Trip trip) {
-
-        int tripId = tripDaoSQL.insertTrip(trip);
-        return tripId > -1;
+    public int addTripSQLite(Trip trip) {
+        return tripDaoSQL.insertTrip(trip);
     }
 
     @Override

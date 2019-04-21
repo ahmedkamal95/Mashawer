@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -12,12 +13,9 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fekratoday.mashawer.R;
-import com.fekratoday.mashawer.model.beans.Trip;
 import com.fekratoday.mashawer.model.database.TripDaoFirebase;
 import com.fekratoday.mashawer.model.database.TripDaoSQL;
 import com.fekratoday.mashawer.screens.loginscreen.LoginContract;
-import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragment;
-import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragmentPresenterImpl;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import java.util.Objects;
 
 public class LoginServices implements LoginServicesInterface {
 
@@ -76,7 +76,7 @@ public class LoginServices implements LoginServicesInterface {
                         }
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        loginPresenter.toast("Authentication failed.");
+                        loginPresenter.toast(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
     }
@@ -106,21 +106,21 @@ public class LoginServices implements LoginServicesInterface {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        loginPresenter.toast("Authentication failed.");
+                        loginPresenter.toast(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
     }
 
     @Override
-    public void signInWithGoogle(MainLoginFragment mainLoginFragment, MainLoginFragmentPresenterImpl mainLoginFragmentPresenter) {
+    public void signInWithGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(mainLoginFragment.getString(R.string.default_web_client_id))
+                .requestIdToken(((Activity)view).getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient((Activity) view, gso);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        mainLoginFragmentPresenter.startActivityForResult(signInIntent, RC_SIGN_IN);
+        loginPresenter.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -148,7 +148,7 @@ public class LoginServices implements LoginServicesInterface {
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
+                Log.e(TAG, "facebook:onError", error);
                 loginPresenter.toast("Error");
             }
         });
@@ -168,7 +168,7 @@ public class LoginServices implements LoginServicesInterface {
                 checkUserId();
             } else {
                 Log.w(TAG, "signInWithCredential:failure", task.getException());
-                loginPresenter.toast("Authentication failed.");
+                loginPresenter.toast(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
@@ -196,12 +196,12 @@ public class LoginServices implements LoginServicesInterface {
         return mAuth.getCurrentUser();
     }
 
-    private void checkUserId(){
+    private void checkUserId() {
         tripDaoFirebase = new TripDaoFirebase();
         tripDaoSQL = new TripDaoSQL(context);
         user = mAuth.getCurrentUser();
         userId = user.getUid();
-        if(userData.getString("userId", null).equals(userId)){
+        /*if(userData.getString("userId", null).equals(userId)){
             if(tripDaoSQL.getAllTrips().size() > tripDaoFirebase.getAllTrips().size()){
                 //remove firbase
             }
@@ -213,7 +213,7 @@ public class LoginServices implements LoginServicesInterface {
                 tripDaoSQL.insertTrip(trip);
             }
 
-        }
+        }*/
     }
 
 }

@@ -78,8 +78,12 @@ public class TripDaoSQL {
 //        cursor.moveToFirst();
 //        Trip newTrip = cursorToTrip(cursor);
 //        cursor.close();
-        editor.putInt("tripsCount", getAllTrips().size());
-        editor.commit();
+
+        /* Error when add trip */
+//        editor.putInt("tripsCount", getAllTrips().size());
+//        editor.commit();
+
+
         close();
         return id;
     }

@@ -6,7 +6,7 @@ public interface AddTripContract {
 
     void addTripFirebase(Trip trip);
 
-    boolean addTripSQLite(Trip trip);
+    int addTripSQLite(Trip trip);
 
     void updateTripFirebase(Trip trip);
 

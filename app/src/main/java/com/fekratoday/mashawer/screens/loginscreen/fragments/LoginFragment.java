@@ -3,6 +3,8 @@ package com.fekratoday.mashawer.screens.loginscreen.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.fekratoday.mashawer.R;
+import com.fekratoday.mashawer.screens.loginscreen.LoginCommunicator;
+
+import java.util.Objects;
 
 
-public class LoginFragment extends Fragment implements LoginFragmentContract.LoginView {
+public class LoginFragment extends Fragment {
 
-    private EditText edtEmail, edtPassword;
+    private EditText edtEmailLogin, edtPasswordLogin;
     private String email, password;
-    private Button btnLogin;
-    private LoginFragmentContract.LoginPresenter presenter;
+    private Button btnLogin, btnSignupLoginPage;
+    private Toolbar toolbar;
+    private LoginCommunicator communicator;
 
 
     public LoginFragment() {
@@ -29,38 +35,47 @@ public class LoginFragment extends Fragment implements LoginFragmentContract.Log
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        edtEmail = view.findViewById(R.id.emailLogin);
-        edtPassword = view.findViewById(R.id.passwordLogin);
+        edtEmailLogin = view.findViewById(R.id.edtEmailLogin);
+        edtPasswordLogin = view.findViewById(R.id.edtPasswordLogin);
         btnLogin = view.findViewById(R.id.btnLogin);
+        btnSignupLoginPage = view.findViewById(R.id.btnSignupLoginPage);
+        toolbar = view.findViewById(R.id.toolbar);
+        setupToolbar();
 
-        presenter = new LoginFragmentPresenterImpl(this);
+        communicator = (LoginCommunicator) getActivity();
 
-        btnLogin.setOnClickListener((view1) -> {
+        btnLogin.setOnClickListener(v -> {
             if (checkData()) {
-                presenter.onButtonLoginClick(email, password);
+                communicator.onButtonLoginClick(email, password);
             }
         });
+
+        btnSignupLoginPage.setOnClickListener(v -> communicator.replaceFragment("signupFragment"));
 
         return view;
     }
 
+    /**
+     * Setting Toolbar
+     */
+    private void setupToolbar() {
+        toolbar.setTitle(R.string.login);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+    }
+
     private boolean checkData() {
         boolean check = false;
-        email = edtEmail.getText().toString().trim();
-        password = edtPassword.getText().toString().trim();
+        email = edtEmailLogin.getText().toString().trim();
+        password = edtPasswordLogin.getText().toString().trim();
         if (email.equals("")) {
-            edtEmail.setError("Please Enter Your Email");
+            edtEmailLogin.setError("Please Enter Your Email");
         } else if (password.equals("")) {
-            edtPassword.setError("Please Enter Your Password");
+            edtPasswordLogin.setError("Please Enter Your Password");
         } else {
             check = true;
         }
         return check;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
-    }
 }

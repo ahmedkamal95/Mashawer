@@ -25,6 +25,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Toast.makeText(HomeActivity.this, getIntent().getStringExtra("email"), Toast.LENGTH_SHORT).show();
+        Toast.makeText(HomeActivity.this, getIntent().getStringExtra("username"), Toast.LENGTH_SHORT).show();
+
+
         initViews();
         setupToolbar();
         setupFragmentAdapter(viewPager, bottomNavigationViewEx);
