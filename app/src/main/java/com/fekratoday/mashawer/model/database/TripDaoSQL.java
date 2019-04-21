@@ -2,18 +2,20 @@ package com.fekratoday.mashawer.model.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.fekratoday.mashawer.model.beans.Trip;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripDaoSQL {
 
+    private static final String PRENS_NAME = "UserData";
+    private SharedPreferences userData;
+    private SharedPreferences.Editor editor;
     private static final String TAG = "Trip Dao ";
     private SQLiteDatabase database;
     private MyDBHelper myDBHelper;
@@ -27,6 +29,8 @@ public class TripDaoSQL {
     public TripDaoSQL(Context context) {
         this.context = context;
         myDBHelper = new MyDBHelper(context);
+        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
+        editor = userData.edit();
     }
 
     private void open() {
@@ -67,15 +71,49 @@ public class TripDaoSQL {
             if (!trip.getNotesList().isEmpty()) {
                 NoteDaoSQL dao = new NoteDaoSQL(context);
                 for (Trip.Note note : trip.getNotesList()) {
-                    dao.insertNote(note.getNoteBody(), note.getDoneState(), id);
+                    dao.insertNote(note);
                 }
             }
         }
 //        cursor.moveToFirst();
 //        Trip newTrip = cursorToTrip(cursor);
 //        cursor.close();
+        editor.putInt("tripsCount", getAllTrips().size());
+        editor.commit();
         close();
         return id;
+    }
+
+    public boolean updateTrip(Trip trip) {
+        open();
+        ContentValues values = new ContentValues();
+        values.put(MyDBHelper.NAME, trip.getName());
+        values.put(MyDBHelper.START_POINT, trip.getStartPoint());
+        values.put(MyDBHelper.START_POINT_LATITUDE, trip.getStartPointLatitude());
+        values.put(MyDBHelper.START_POINT_LONGITUDE, trip.getStartPointLongitude());
+        values.put(MyDBHelper.END_POINT, trip.getEndPoint());
+        values.put(MyDBHelper.END_POINT_LATITUDE, trip.getEndPointLatitude());
+        values.put(MyDBHelper.END_POINT_LONGITUDE, trip.getEndPointLongitude());
+        values.put(MyDBHelper.HOUR, trip.getHour());
+        values.put(MyDBHelper.MINUTE, trip.getMinute());
+        values.put(MyDBHelper.DAY, trip.getDay());
+        values.put(MyDBHelper.MONTH, trip.getMonth());
+        values.put(MyDBHelper.YEAR, trip.getYear());
+        values.put(MyDBHelper.ONE_WAY_TRIP, trip.isOneWayTrip());
+        values.put(MyDBHelper.REPEATED, trip.isRepeated());
+        values.put(MyDBHelper.TRIP_STATE, trip.isTripState());
+        int id = (int) database.update(MyDBHelper.TRIP_TABLE, values, MyDBHelper.TRIP_ID + " = ?",
+                new String[]{String.valueOf(trip.getId())});
+        if (trip.getNotesList() != null) {
+            if (!trip.getNotesList().isEmpty()) {
+                NoteDaoSQL dao = new NoteDaoSQL(context);
+                for (Trip.Note note : trip.getNotesList()) {
+                    dao.updateNote(note);
+                }
+            }
+        }
+        close();
+        return id > -1;
     }
 
     public void deleteTrip(int tripId) {
@@ -90,6 +128,12 @@ public class TripDaoSQL {
         database.delete(MyDBHelper.TRIP_TABLE, MyDBHelper.TRIP_ID + " = ?",
                 new String[]{String.valueOf(tripId)});
         close();
+    }
+
+    public void deleteAllTrips(){
+        for(Trip trip : getAllTrips()){
+            deleteTrip(trip.getId());
+        }
     }
 
     public List<Trip> getAllTrips() {

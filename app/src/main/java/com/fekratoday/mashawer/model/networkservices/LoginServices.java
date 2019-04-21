@@ -1,9 +1,10 @@
 package com.fekratoday.mashawer.model.networkservices;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -11,6 +12,9 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fekratoday.mashawer.R;
+import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.model.database.TripDaoFirebase;
+import com.fekratoday.mashawer.model.database.TripDaoSQL;
 import com.fekratoday.mashawer.screens.loginscreen.LoginContract;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragment;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragmentPresenterImpl;
@@ -30,18 +34,28 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class LoginServices implements LoginServicesInterface {
 
     private static LoginServices instance = null;
-
+    private static final String PRENS_NAME = "UserData";
     private static final String TAG = "LoginServices";
     private static final int RC_SIGN_IN = 1;
     private FirebaseAuth mAuth;
     private CallbackManager mCallbackManager;
     private LoginContract.View view;
     private LoginContract.Presenter loginPresenter;
+    private SharedPreferences userData;
+    private SharedPreferences.Editor editor;
+    private FirebaseUser user;
+    private String userId;
+    private Context context;
+    private TripDaoFirebase tripDaoFirebase;
+    private TripDaoSQL tripDaoSQL;
 
     private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter) {
         this.view = view;
         this.loginPresenter = loginPresenter;
         mAuth = FirebaseAuth.getInstance();
+        context = (Context) view;
+        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
+        editor = userData.edit();
     }
 
     public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter) {
@@ -88,6 +102,7 @@ public class LoginServices implements LoginServicesInterface {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithEmail:success");
                         loginPresenter.login(mAuth.getCurrentUser());
+                        checkUserId();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -150,6 +165,7 @@ public class LoginServices implements LoginServicesInterface {
             if (task.isSuccessful()) {
                 Log.d(TAG, "signInWithCredential:success");
                 loginPresenter.login(mAuth.getCurrentUser());
+                checkUserId();
             } else {
                 Log.w(TAG, "signInWithCredential:failure", task.getException());
                 loginPresenter.toast("Authentication failed.");
@@ -178,6 +194,26 @@ public class LoginServices implements LoginServicesInterface {
     @Override
     public FirebaseUser isLoggedIn() {
         return mAuth.getCurrentUser();
+    }
+
+    private void checkUserId(){
+        tripDaoFirebase = new TripDaoFirebase();
+        tripDaoSQL = new TripDaoSQL(context);
+        user = mAuth.getCurrentUser();
+        userId = user.getUid();
+        if(userData.getString("userId", null).equals(userId)){
+            if(tripDaoSQL.getAllTrips().size() > tripDaoFirebase.getAllTrips().size()){
+                //remove firbase
+            }
+        }else {
+            editor.putString("userId", userId);
+            editor.commit();
+            tripDaoSQL.deleteAllTrips();
+            for(Trip trip: tripDaoFirebase.getAllTrips()){
+                tripDaoSQL.insertTrip(trip);
+            }
+
+        }
     }
 
 }

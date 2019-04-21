@@ -42,12 +42,12 @@ public class NoteDaoSQL {
         myDBHelper.close();
     }
 
-    int insertNote(String noteBody, boolean done, int companyId) {
+    int insertNote(Trip.Note note) {
         open();
         ContentValues values = new ContentValues();
-        values.put(MyDBHelper.NOTE_BODY, noteBody);
-        values.put(MyDBHelper.DONE_STATE, done);
-        values.put(MyDBHelper.NOTE_TRIP_ID, companyId);
+        values.put(MyDBHelper.NOTE_BODY, note.getNoteBody());
+        values.put(MyDBHelper.DONE_STATE, note.getDoneState());
+        values.put(MyDBHelper.NOTE_TRIP_ID, note.getTripId());
         int id = (int) database.insert(MyDBHelper.NOTE_TABLE, null, values);
 //        Cursor cursor = database.query(MyDBHelper.NOTE_TABLE, allColumns,
 //                MyDBHelper.NOTE_ID + " = " + insertId, null, null,
@@ -57,6 +57,24 @@ public class NoteDaoSQL {
 //        cursor.close();
         close();
         return id;
+    }
+
+    boolean updateNote(Trip.Note note){
+        open();
+        ContentValues values = new ContentValues();
+        values.put(MyDBHelper.NOTE_BODY, note.getNoteBody());
+        values.put(MyDBHelper.DONE_STATE, note.getDoneState());
+        values.put(MyDBHelper.NOTE_TRIP_ID, note.getTripId());
+        int id = (int) database.update(MyDBHelper.NOTE_TABLE, values, MyDBHelper.NOTE_ID + " = ?",
+                new String[]{String.valueOf(note.getId())});
+//        Cursor cursor = database.query(MyDBHelper.NOTE_TABLE, allColumns,
+//                MyDBHelper.NOTE_ID + " = " + insertId, null, null,
+//                null, null);
+//        cursor.moveToFirst();
+//        Trip.Note newNote = cursorToNote(cursor);
+//        cursor.close();
+        close();
+        return id > -1;
     }
 
     void deleteNote(int noteID) {

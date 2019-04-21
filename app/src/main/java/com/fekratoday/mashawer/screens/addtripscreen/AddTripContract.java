@@ -4,6 +4,11 @@ import com.fekratoday.mashawer.model.beans.Trip;
 
 public interface AddTripContract {
 
-    public boolean addTripFirebase(Trip trip);
-    public boolean addTripSQLite(Trip trip);
+    void addTripFirebase(Trip trip);
+
+    boolean addTripSQLite(Trip trip);
+
+    void updateTripFirebase(Trip trip);
+
+    boolean updateTripSQLite(Trip trip);
 }

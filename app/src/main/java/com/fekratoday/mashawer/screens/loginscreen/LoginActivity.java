@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         FirebaseAuth.getInstance().signOut();
         mGoogleSignInClient.signOut();
-
         presenter = new LoginPresenterImpl(this);
 
         fragmentManager = getSupportFragmentManager();
