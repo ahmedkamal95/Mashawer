@@ -21,34 +21,32 @@ public class TripDaoFirebase {
     String userId;
 
     public TripDaoFirebase() {
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        userId = user.getUid();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users").child(userId).child("trips");
+
     }
 
     public void insertTrip(Trip trip) {
-
+        getDatabaseRef();
         boolean inserted = false;
         myRef.child("trip"+trip.getId()).setValue(trip);
 //        return inserted;
     }
 
     public void updateTrip(Trip trip) {
-
+        getDatabaseRef();
         boolean inserted = false;
         myRef.child("trip"+trip.getId()).setValue(trip);
 //        return inserted;
     }
 
     public void deleteTrip(Trip trip) {
-
+        getDatabaseRef();
         myRef.child("trip"+trip.getId()).removeValue();
 
     }
 
     public List<Trip> getAllTrips() {
 
+        getDatabaseRef();
         List<Trip> allTrips = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -65,5 +63,12 @@ public class TripDaoFirebase {
             }
         });
         return allTrips;
+    }
+
+    private void getDatabaseRef(){
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userId = user.getUid();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users").child(userId).child("trips");
     }
 }

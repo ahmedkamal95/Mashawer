@@ -29,4 +29,16 @@ public class AddTripPresenterImpl implements AddTripContract {
         int tripId = tripDaoSQL.insertTrip(trip);
         return tripId>-1;
     }
+
+    @Override
+    public void updateTripFirebase(Trip trip) {
+        tripDaoFirebase.updateTrip(trip);
+    }
+
+    @Override
+    public boolean updateTripSQLite(Trip trip) {
+
+        boolean done = tripDaoSQL.updateTrip(trip);
+        return done;
+    }
 }

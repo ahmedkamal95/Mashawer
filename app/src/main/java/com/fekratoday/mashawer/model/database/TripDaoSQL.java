@@ -2,18 +2,20 @@ package com.fekratoday.mashawer.model.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.fekratoday.mashawer.model.beans.Trip;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TripDaoSQL {
 
+    private static final String PRENS_NAME = "UserData";
+    private SharedPreferences userData;
+    private SharedPreferences.Editor editor;
     private static final String TAG = "Trip Dao ";
     private SQLiteDatabase database;
     private MyDBHelper myDBHelper;
@@ -27,6 +29,8 @@ public class TripDaoSQL {
     public TripDaoSQL(Context context) {
         this.context = context;
         myDBHelper = new MyDBHelper(context);
+        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
+        editor = userData.edit();
     }
 
     private void open() {
@@ -74,6 +78,8 @@ public class TripDaoSQL {
 //        cursor.moveToFirst();
 //        Trip newTrip = cursorToTrip(cursor);
 //        cursor.close();
+        editor.putInt("tripsCount", getAllTrips().size());
+        editor.commit();
         close();
         return id;
     }
@@ -122,6 +128,12 @@ public class TripDaoSQL {
         database.delete(MyDBHelper.TRIP_TABLE, MyDBHelper.TRIP_ID + " = ?",
                 new String[]{String.valueOf(tripId)});
         close();
+    }
+
+    public void deleteAllTrips(){
+        for(Trip trip : getAllTrips()){
+            deleteTrip(trip.getId());
+        }
     }
 
     public List<Trip> getAllTrips() {

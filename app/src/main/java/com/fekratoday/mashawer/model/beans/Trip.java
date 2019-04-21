@@ -1,8 +1,9 @@
 package com.fekratoday.mashawer.model.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Trip {
+public class Trip implements Serializable {
 
     private int id;
     private String name;
@@ -25,7 +26,9 @@ public class Trip {
     public Trip() {
     }
 
-    public Trip(int id, String name, String startPoint, double startPointLatitude, double startPointLongitude, String endPoint, double endPointLatitude, double endPointLongitude, int hour, int minute, int day, int month, int year, boolean oneWayTrip, boolean repeated, boolean tripState, List<Note> notesList) {
+    public Trip(int id, String name, String startPoint, double startPointLatitude, double startPointLongitude,
+                String endPoint, double endPointLatitude, double endPointLongitude, int hour, int minute, int day,
+                int month, int year, boolean oneWayTrip, boolean repeated, boolean tripState, List<Note> notesList) {
         this.id = id;
         this.name = name;
         this.startPoint = startPoint;

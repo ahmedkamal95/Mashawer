@@ -6,4 +6,6 @@ public interface AddTripContract {
 
     public void addTripFirebase(Trip trip);
     public boolean addTripSQLite(Trip trip);
+    public void updateTripFirebase(Trip trip);
+    public boolean updateTripSQLite(Trip trip);
 }
