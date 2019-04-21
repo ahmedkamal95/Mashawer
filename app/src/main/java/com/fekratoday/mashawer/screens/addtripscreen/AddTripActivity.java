@@ -60,7 +60,7 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
                     Toast.makeText(this, String.valueOf(tripId), Toast.LENGTH_SHORT).show();
                     AlarmHelper.setAlarm(this, tripId, calendar);
                     Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
-//                    finish();
+                    finish();
                 }
             }
         });

@@ -26,21 +26,25 @@ public class AlarmPresenterImpl implements AlarmContract.Presenter {
         trip.setTripState(true);
         AlarmHelper.cancelAlarm((Context) view, trip.getId());
         notificationManager.cancel(trip.getId());
-//        tripDaoSQL.
+//        tripDaoSQL.updateState
         view.showMap();
-        view.startFloatingWidget();
     }
 
     @Override
-    public void snoozeTrip(Trip trip, int tripId) {
-        AlarmHelper.cancelAlarm((Context) view, tripId);
+    public void snoozeTrip(Trip trip) {
+        AlarmHelper.cancelAlarm((Context) view, trip.getId());
         notificationHelper.createNotification(trip);
     }
 
     @Override
-    public void cancelTrip(Trip trip, int tripId) {
-        notificationManager.cancel(tripId);
-        AlarmHelper.cancelAlarm((Context) view, tripId);
-        tripDaoSQL.deleteTrip(tripId);
+    public void cancelTrip(Trip trip) {
+        notificationManager.cancel(trip.getId());
+        AlarmHelper.cancelAlarm((Context) view, trip.getId());
+        tripDaoSQL.deleteTrip(trip.getId());
+    }
+
+    @Override
+    public Trip getTrip(int tripId) {
+        return tripDaoSQL.getTripById(tripId);
     }
 }

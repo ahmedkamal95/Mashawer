@@ -13,13 +13,13 @@ import java.util.Calendar;
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 
 public class AlarmHelper {
+
     public static void setAlarm(Context context, int tripId, Calendar calendar) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.putExtra("tripId", tripId);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tripId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Toast.makeText(context, "done alarm", Toast.LENGTH_SHORT).show();
         if (alarmManager != null) {
             if (android.os.Build.VERSION.SDK_INT >= 19) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

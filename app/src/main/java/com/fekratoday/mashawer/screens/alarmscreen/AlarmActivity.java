@@ -1,6 +1,5 @@
 package com.fekratoday.mashawer.screens.alarmscreen;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -12,56 +11,61 @@ import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
-import com.fekratoday.mashawer.model.database.TripDaoSQL;
-import com.fekratoday.mashawer.utilities.NotificationHelper;
 
 public class AlarmActivity extends AppCompatActivity implements AlarmContract.View {
 
     private AlarmContract.Presenter presenter;
-    private Builder alertBuilder;
-    private NotificationHelper notificationHelper;
-    private NotificationManager notificationManager;
     private MediaPlayer player;
     private Trip trip;
-    private TripDaoSQL tripDaoSQL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
-        setFinishOnTouchOutside(false);
-
-        final int tripId = getIntent().getIntExtra("tripId", 0);
-        Toast.makeText(this, tripId + "activity", Toast.LENGTH_SHORT).show();
-        tripDaoSQL = new TripDaoSQL(this);
-        trip = tripDaoSQL.getTripById(tripId);
 
         presenter = new AlarmPresenterImpl(this);
+        final int tripId = getIntent().getIntExtra("tripId", 0);
+        trip = presenter.getTrip(tripId);
 
+        setFinishOnTouchOutside(false);
+        startMediaPlayer();
+        showAlertDialog();
+    }
+
+    private void showAlertDialog() {
+        Builder alertBuilder = new Builder(this);
+        alertBuilder.setTitle(getResources().getString(R.string.app_name))
+                .setMessage("Do you want to start " + trip.getName() + " trip?")
+                .setPositiveButton("Start", (dialogInterface, i) -> {
+                    stopMediaPlayer();
+                    presenter.startTrip(trip);
+                    finish();
+                })
+                .setNeutralButton("Snooze", (dialogInterface, i) -> {
+                    stopMediaPlayer();
+                    presenter.snoozeTrip(trip);
+                    finish();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    stopMediaPlayer();
+                    presenter.cancelTrip(trip);
+                    finish();
+                })
+                .setIcon(getResources().getDrawable(R.mipmap.ic_launcher))
+                .setCancelable(false)
+                .show();
+    }
+
+    private void startMediaPlayer() {
         player = MediaPlayer.create(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         player.setLooping(true);
         player.setVolume(100.0f, 100.0f);
         player.start();
+    }
 
-        alertBuilder = new Builder(this);
-        alertBuilder.setTitle(getResources().getString(R.string.app_name))
-                .setMessage("Do you want to start " + trip.getName() + " trip?")
-                .setPositiveButton("start", (dialogInterface, i) -> {
-                    player.stop();
-                    player.release();
-                    presenter.startTrip(trip);
-                    finish();
-                }).setNeutralButton("snooze", (dialogInterface, i) -> {
-            player.stop();
-            player.release();
-            presenter.snoozeTrip(trip, tripId);
-            finish();
-        }).setNegativeButton("Cancel Trip", (dialog, which) -> {
-            player.stop();
-            player.release();
-            presenter.cancelTrip(trip, tripId);
-            finish();
-        }).setIcon(getResources().getDrawable(R.mipmap.ic_launcher)).setCancelable(false).show();
+    private void stopMediaPlayer() {
+        player.stop();
+        player.release();
     }
 
     @Override
@@ -74,13 +78,13 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
             mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(mapIntent);
         } else {
-            Toast.makeText(getApplicationContext(), "Please install a maps application", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Not found maps application", Toast.LENGTH_SHORT).show();
         }
+        showFloatingWidget();
         finish();
     }
 
-    @Override
-    public void startFloatingWidget() {
+    private void showFloatingWidget() {
 
     }
 }
