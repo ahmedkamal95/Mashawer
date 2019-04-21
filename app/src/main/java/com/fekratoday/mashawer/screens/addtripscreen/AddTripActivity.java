@@ -64,7 +64,7 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
                     if (CheckInternetConnection.getInstance(this).checkInternet()) {
 
                         /* Error when add trip */
-//                        addTripContract.addTripFirebase(trip);
+                        addTripContract.addTripFirebase(trip);
 
                     }
                 }

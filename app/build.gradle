@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:4.42.0'
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.android.libraries.places:places-compat:1.1.0'
+    implementation 'com.txusballesteros:bubbles:1.2.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

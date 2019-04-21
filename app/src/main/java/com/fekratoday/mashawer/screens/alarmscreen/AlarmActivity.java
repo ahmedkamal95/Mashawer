@@ -1,22 +1,35 @@
 package com.fekratoday.mashawer.screens.alarmscreen;
 
+import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
+import com.txusballesteros.bubbles.BubbleLayout;
+import com.txusballesteros.bubbles.BubblesManager;
+import com.txusballesteros.bubbles.OnInitializedCallback;
+
+import java.util.List;
 
 public class AlarmActivity extends AppCompatActivity implements AlarmContract.View {
 
     private AlarmContract.Presenter presenter;
     private MediaPlayer player;
     private Trip trip;
+    private BubblesManager bubblesManager;
+    private int MY_PERMISSION = 2006;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +93,72 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
         } else {
             Toast.makeText(getApplicationContext(), "Not found maps application", Toast.LENGTH_SHORT).show();
         }
-        showFloatingWidget();
+        showFloatingWidget(trip.getNotesList());
         finish();
     }
 
-    private void showFloatingWidget() {
+    private void showFloatingWidget(List<Trip.Note> notesList) {
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, MY_PERMISSION);
+            }
+        } else {
+            Intent intent = new Intent(this, Service.class);
+            startService(intent);
+            initializeBubblesManager();
+            addNewBubble();
+        }
+    }
+
+    private void initializeBubblesManager() {
+        bubblesManager = new BubblesManager.Builder(this)
+                .setTrashLayout(R.layout.notification_trash_layout)
+                .setInitializationCallback(new OnInitializedCallback() {
+                    @Override
+                    public void onInitialized() {
+                        addNewBubble();
+
+                    }
+                })
+                .build();
+        bubblesManager.initialize();
+    }
+
+    private void addNewBubble() {
+        BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(AlarmActivity.this).inflate(R.layout.notification_layout, null);
+        bubbleView.setOnBubbleRemoveListener(new BubbleLayout.OnBubbleRemoveListener() {
+            @Override
+            public void onBubbleRemoved(BubbleLayout bubble) { }
+        });
+        bubbleView.setOnBubbleClickListener(new BubbleLayout.OnBubbleClickListener() {
+
+            @Override
+            public void onBubbleClick(BubbleLayout bubble) {
+                Toast.makeText(getApplicationContext(), "Clicked !",
+                        Toast.LENGTH_SHORT).show();
+//                for(Trip.Note note : notesList) {
+//                    CheckBox checkBox = new CheckBox(getApplicationContext());
+//                    checkBox.setId(note.getId());
+//                    checkBox.setText(note.getNoteBody());
+//                    layout.addView(checkBox);
+//                    checkBox.setOnCheckedChangeListener((CompoundButton, button)->{
+//                        if(button){
+//                            note.setDoneState(true);
+//                        }
+//                    });
+//                }
+            }
+        });
+        bubbleView.setShouldStickToWall(true);
+        bubblesManager.addBubble(bubbleView, 60, 20);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bubblesManager.recycle();
     }
 }
