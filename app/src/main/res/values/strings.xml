@@ -35,6 +35,6 @@
     <string name="writeNote">Write Note to Add</string>
     <string name="sync_btn">sync</string>
     <string name="logout">Log out</string>
-
+    <string name="TripNotes">Trip Notes</string>
 
 </resources>

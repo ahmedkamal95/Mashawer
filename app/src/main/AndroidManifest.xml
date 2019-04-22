@@ -34,8 +34,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".screens.splashscreen.SplashScreenActivity" />
-        <activity android:name=".screens.homescreen.HomeActivity" />
-        <activity android:name=".screens.addtripscreen.AddTripActivity" />
+        <activity android:name=".screens.homescreen.HomeActivity" >
+        </activity>
+        <activity android:name=".screens.addtripscreen.AddTripActivity">
+
+        </activity>
+
+
+
         <activity
             android:name=".screens.alarmscreen.AlarmActivity"
             android:excludeFromRecents="true"
