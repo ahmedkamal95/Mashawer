@@ -28,12 +28,14 @@
         </activity>
         <activity android:name=".screens.splashscreen.SplashScreenActivity" />
         <activity android:name=".screens.homescreen.HomeActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".screens.addtripscreen.AddTripActivity">
+
         </activity>
         <activity
             android:name=".screens.alarmscreen.AlarmActivity"
