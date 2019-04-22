@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
     }
     buildTypes {
@@ -44,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.android.libraries.places:places-compat:1.1.0'
     implementation 'com.txusballesteros:bubbles:1.2.1'
+    implementation 'com.android.support:multidex:1.0.3'
 
 }
 apply plugin: 'com.google.gms.google-services'
