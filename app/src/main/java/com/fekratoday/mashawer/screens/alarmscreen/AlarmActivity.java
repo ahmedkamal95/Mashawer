@@ -108,37 +108,25 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
         } else {
             Intent intent = new Intent(this, Service.class);
             startService(intent);
+        }
             initializeBubblesManager();
             addNewBubble();
-        }
     }
 
     private void initializeBubblesManager() {
         bubblesManager = new BubblesManager.Builder(this)
                 .setTrashLayout(R.layout.notification_trash_layout)
-                .setInitializationCallback(new OnInitializedCallback() {
-                    @Override
-                    public void onInitialized() {
-                        addNewBubble();
-
-                    }
-                })
+                .setInitializationCallback(this::addNewBubble)
                 .build();
         bubblesManager.initialize();
     }
 
     private void addNewBubble() {
         BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(AlarmActivity.this).inflate(R.layout.notification_layout, null);
-        bubbleView.setOnBubbleRemoveListener(new BubbleLayout.OnBubbleRemoveListener() {
-            @Override
-            public void onBubbleRemoved(BubbleLayout bubble) { }
-        });
-        bubbleView.setOnBubbleClickListener(new BubbleLayout.OnBubbleClickListener() {
-
-            @Override
-            public void onBubbleClick(BubbleLayout bubble) {
-                Toast.makeText(getApplicationContext(), "Clicked !",
-                        Toast.LENGTH_SHORT).show();
+        bubbleView.setOnBubbleRemoveListener(bubble -> { });
+        bubbleView.setOnBubbleClickListener(bubble -> {
+            Toast.makeText(getApplicationContext(), "Clicked !",
+                    Toast.LENGTH_SHORT).show();
 //                for(Trip.Note note : notesList) {
 //                    CheckBox checkBox = new CheckBox(getApplicationContext());
 //                    checkBox.setId(note.getId());
@@ -150,7 +138,6 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
 //                        }
 //                    });
 //                }
-            }
         });
         bubbleView.setShouldStickToWall(true);
         bubblesManager.addBubble(bubbleView, 60, 20);

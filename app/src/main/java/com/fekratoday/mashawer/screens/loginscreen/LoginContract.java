@@ -37,5 +37,6 @@ public interface LoginContract {
 
         void onButtonFacebookClick(LoginButton btnFacebook);
 
+        FirebaseUser onStart();
     }
 }

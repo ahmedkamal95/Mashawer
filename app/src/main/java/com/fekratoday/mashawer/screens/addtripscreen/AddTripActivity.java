@@ -62,7 +62,7 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
                     Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
                     finish();
                     if (CheckInternetConnection.getInstance(this).checkInternet()) {
-
+                        trip.setId(tripId);
                         /* Error when add trip */
                         addTripContract.addTripFirebase(trip);
 

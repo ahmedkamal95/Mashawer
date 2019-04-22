@@ -1,5 +1,6 @@
 package com.fekratoday.mashawer.screens.homescreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,15 +20,16 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private BottomNavigationViewEx bottomNavigationViewEx;
     private long time;
+    private String username, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toast.makeText(HomeActivity.this, getIntent().getStringExtra("email"), Toast.LENGTH_SHORT).show();
-        Toast.makeText(HomeActivity.this, getIntent().getStringExtra("username"), Toast.LENGTH_SHORT).show();
-
+        Intent commingIntent = getIntent();
+        username = commingIntent.getStringExtra("username");
+        email = commingIntent.getStringExtra("email");
 
         initViews();
         setupToolbar();

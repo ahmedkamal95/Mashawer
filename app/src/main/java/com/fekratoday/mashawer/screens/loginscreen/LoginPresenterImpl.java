@@ -61,6 +61,11 @@ public class LoginPresenterImpl implements LoginContract.Presenter {
     }
 
     @Override
+    public FirebaseUser onStart() {
+        return loginServices.isLoggedIn();
+    }
+
+    @Override
     public void onDestroy() {
         view = null;
         loginServices = null;

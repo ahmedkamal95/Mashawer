@@ -62,10 +62,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     protected void onStart() {
         super.onStart();
-        /*user = presenter.onStart();
+        FirebaseUser user = presenter.onStart();
         if (user != null) {
             login(user);
-        }*/
+        }
     }
 
     @Override
