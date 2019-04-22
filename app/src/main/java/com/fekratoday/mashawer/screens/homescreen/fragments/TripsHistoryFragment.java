@@ -36,16 +36,13 @@ public class TripsHistoryFragment extends Fragment {
         View tripHistoryFragmentView = inflater.inflate(R.layout.fragment_trips_history, container, false);
         tripsView = tripHistoryFragmentView.findViewById(R.id.tripsView);
         tripDaoSQL = new TripDaoSQL(getActivity());
-        tripList = tripDaoSQL.getAllTrips();
-//        tripList.add(new Trip("Aswan","aswan aswan aswan"));
-//        tripList.add(new Trip("Luxur","Luxur Luxur Luxur"));
-//        tripList.add(new Trip("ITI","ITI ITI ITI"));
-//        tripList.add(new Trip("Aurgada","Aurgada Aurgada Aurgada"));
+        tripList = new ArrayList<>();
+        tripList.addAll(tripDaoSQL.getAllTrips());
 
 //        tripsHistoryContract = new TripsHistoryPresenterImpl(getContext());
 //        tripList = tripsHistoryContract.getallTripsFirebase();
 
-        manager = new LinearLayoutManager(getContext());
+        manager = new LinearLayoutManager(getActivity());
         tripsView.setLayoutManager(manager);
         tripsAdapter = new TripsViewAdapter(getActivity(),tripList);
         tripsView.setAdapter(tripsAdapter);

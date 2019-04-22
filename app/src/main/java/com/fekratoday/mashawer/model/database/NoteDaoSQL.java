@@ -42,12 +42,12 @@ public class NoteDaoSQL {
         myDBHelper.close();
     }
 
-    int insertNote(Trip.Note note) {
+    int insertNote(Trip.Note note, int tripId) {
         open();
         ContentValues values = new ContentValues();
         values.put(MyDBHelper.NOTE_BODY, note.getNoteBody());
         values.put(MyDBHelper.DONE_STATE, note.getDoneState());
-        values.put(MyDBHelper.NOTE_TRIP_ID, note.getTripId());
+        values.put(MyDBHelper.NOTE_TRIP_ID, tripId);
         int id = (int) database.insert(MyDBHelper.NOTE_TABLE, null, values);
 //        Cursor cursor = database.query(MyDBHelper.NOTE_TABLE, allColumns,
 //                MyDBHelper.NOTE_ID + " = " + insertId, null, null,
@@ -91,8 +91,7 @@ public class NoteDaoSQL {
         Cursor cursor = database.query(MyDBHelper.NOTE_TABLE, allColumns,
                 null, null, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 Trip.Note note = cursorToNote(cursor);
                 notesList.add(note);
@@ -111,8 +110,8 @@ public class NoteDaoSQL {
         Cursor cursor = database.query(MyDBHelper.NOTE_TABLE, allColumns,
                 MyDBHelper.NOTE_TRIP_ID + " = ?",
                 new String[]{String.valueOf(tripId)}, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
+
             while (!cursor.isAfterLast()) {
                 Trip.Note note = cursorToNote(cursor);
                 notesList.add(note);

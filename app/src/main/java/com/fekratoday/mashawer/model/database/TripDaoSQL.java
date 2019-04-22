@@ -71,7 +71,7 @@ public class TripDaoSQL {
             if (!trip.getNotesList().isEmpty()) {
                 NoteDaoSQL dao = new NoteDaoSQL(context);
                 for (Trip.Note note : trip.getNotesList()) {
-                    dao.insertNote(note);
+                    dao.insertNote(note,id);
                 }
             }
         }
@@ -146,8 +146,8 @@ public class TripDaoSQL {
 
         Cursor cursor = database.query(MyDBHelper.TRIP_TABLE, allColumns,
                 null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
+
             while (!cursor.isAfterLast()) {
                 Trip trip = cursorToTrip(cursor);
                 tripsList.add(trip);
@@ -176,9 +176,8 @@ public class TripDaoSQL {
 
     private Trip cursorToTrip(Cursor cursor) {
         Trip trip = new Trip();
-        if (cursor != null && cursor.moveToFirst()) {
+//        if (cursor != null && cursor.moveToFirst()) {
             int tripId = cursor.getInt(0);
-
             trip.setId(tripId);
             trip.setName(cursor.getString(1));
             trip.setStartPoint(cursor.getString(2));
@@ -201,8 +200,8 @@ public class TripDaoSQL {
             if (notesList != null) {
                 trip.setNotesList(notesList);
             }
-            cursor.close();
-        }
+//            cursor.close();
+//        }
         return trip;
     }
 }
