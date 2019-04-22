@@ -3,6 +3,8 @@ package com.fekratoday.mashawer.screens.loginscreen.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.fekratoday.mashawer.R;
+import com.fekratoday.mashawer.screens.loginscreen.LoginCommunicator;
+
+import java.util.Objects;
 
 
-public class SignupFragment extends Fragment implements SignupFragmentContract.SignupView {
+public class SignupFragment extends Fragment {
 
-    private EditText edtEmail, edtUserName, edtPassword, edtConfirmPassword;
+    private EditText edtEmailSignup, edtUserNameSignup, edtPasswordSignup, edtConfirmPasswordSignup;
     private String email, userName, password, confirmPassword;
-    private Button btnCreateAccount;
-    private SignupFragmentContract.SignupPresenter presenter;
+    private Button btnCreateAccount, btnLoginSignupPage;
+    private Toolbar toolbar;
+    private LoginCommunicator communicator;
 
     public SignupFragment() {
     }
@@ -27,48 +33,56 @@ public class SignupFragment extends Fragment implements SignupFragmentContract.S
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
-        edtEmail = view.findViewById(R.id.email);
-        edtUserName = view.findViewById(R.id.userName);
-        edtPassword = view.findViewById(R.id.password);
-        edtConfirmPassword = view.findViewById(R.id.confirmPassword);
+        edtEmailSignup = view.findViewById(R.id.edtEmailSignup);
+        edtUserNameSignup = view.findViewById(R.id.edtUserNameSignup);
+        edtPasswordSignup = view.findViewById(R.id.edtPasswordSignup);
+        edtConfirmPasswordSignup = view.findViewById(R.id.edtConfirmPasswordSignup);
         btnCreateAccount = view.findViewById(R.id.btnCreateAccount);
+        btnLoginSignupPage = view.findViewById(R.id.btnLoginSignupPage);
+        toolbar = view.findViewById(R.id.toolbar);
+        setupToolbar();
 
-        presenter = new SignupFragmentPresenterImpl(this);
+        communicator = (LoginCommunicator) getActivity();
 
-        btnCreateAccount.setOnClickListener((view1) -> {
+        btnCreateAccount.setOnClickListener(v -> {
             if (checkData()) {
-                presenter.onButtonRegisterClick(email, password, userName, this);
+                communicator.onButtonRegisterClick(email, password, userName, this);
             }
         });
+
+        btnLoginSignupPage.setOnClickListener(v -> communicator.replaceFragment("loginFragment"));
 
         return view;
 
     }
 
+    /**
+     * Setting Toolbar
+     */
+    private void setupToolbar() {
+        toolbar.setTitle(R.string.createAccount);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+    }
+
     private boolean checkData() {
         boolean check = false;
-        email = edtEmail.getText().toString().trim();
-        userName = edtUserName.getText().toString().trim();
-        password = edtPassword.getText().toString().trim();
-        confirmPassword = edtConfirmPassword.getText().toString().trim();
+        email = edtEmailSignup.getText().toString().trim();
+        userName = edtUserNameSignup.getText().toString().trim();
+        password = edtPasswordSignup.getText().toString().trim();
+        confirmPassword = edtConfirmPasswordSignup.getText().toString().trim();
         if (email.equals("")) {
-            edtEmail.setError("Please Enter Your Email");
+            edtEmailSignup.setError("Please Enter Your Email");
         } else if (userName.equals("")) {
-            edtPassword.setError("Please Enter Your User Name");
+            edtPasswordSignup.setError("Please Enter Your User Name");
         } else if (password.equals("")) {
-            edtPassword.setError("Please Enter Your Password");
+            edtPasswordSignup.setError("Please Enter Your Password");
         } else if (confirmPassword.equals("") || !confirmPassword.equals(password)) {
-            edtConfirmPassword.setError("Password Not Match");
+            edtConfirmPasswordSignup.setError("Password Not Match");
         } else {
             check = true;
         }
         return check;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.onDestroy();
     }
 
 }

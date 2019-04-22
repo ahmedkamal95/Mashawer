@@ -1,6 +1,5 @@
 package com.fekratoday.mashawer.utilities;
 
-import android.annotation.TargetApi;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,21 +20,22 @@ public class NotificationHelper {
     private Context context;
     private NotificationManager notificationManager;
 
-    public NotificationHelper(Context base) {
-        context = base;
+    public NotificationHelper(Context context) {
+        this.context = context;
         if (Build.VERSION.SDK_INT >= 26) {
             createChannel();
         } else if (notificationManager == null) {
-            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager = (NotificationManager) this.context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
     }
 
-    @TargetApi(26)
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
-        notificationManager = context.getSystemService(NotificationManager.class);
-        if (notificationManager != null) {
-            notificationManager.createNotificationChannel(channel);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            notificationManager = context.getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
 
@@ -51,16 +51,12 @@ public class NotificationHelper {
                 .setOngoing(true)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_notification)
-                .setTicker("Trip Alarm")
                 .setAutoCancel(false)
-                .setDefaults(5)
-                .setContentInfo("Info")
-                .setContentTitle("Trip on hold")
+                .setContentTitle(trip.getName() + " on hold")
+                .setContentText("Click to start " + trip.getName())
                 .setStyle(new NotificationCompat.BigTextStyle())
                 .setLights(Color.BLUE, 500, 500)
                 .setVibrate(pattern)
-                .setContentText(trip.getName() + " waiting to start")
-                .setPriority(2)
                 .setContentIntent(PendingIntent.getActivity(context, trip.getId(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .build());
     }

@@ -8,10 +8,10 @@ import com.fekratoday.mashawer.model.database.TripDaoSQL;
 
 public class AddTripPresenterImpl implements AddTripContract {
 
-    TripDaoFirebase tripDaoFirebase;
-    TripDaoSQL tripDaoSQL;
+    private TripDaoFirebase tripDaoFirebase;
+    private TripDaoSQL tripDaoSQL;
 
-    public AddTripPresenterImpl(Context context){
+    AddTripPresenterImpl(Context context) {
         tripDaoFirebase = new TripDaoFirebase();
         tripDaoSQL = new TripDaoSQL(context);
     }
@@ -24,9 +24,19 @@ public class AddTripPresenterImpl implements AddTripContract {
     }
 
     @Override
-    public boolean addTripSQLite(Trip trip) {
+    public int addTripSQLite(Trip trip) {
+        return tripDaoSQL.insertTrip(trip);
+    }
 
-        int tripId = tripDaoSQL.insertTrip(trip);
-        return tripId>-1;
+    @Override
+    public void updateTripFirebase(Trip trip) {
+        tripDaoFirebase.updateTrip(trip);
+    }
+
+    @Override
+    public boolean updateTripSQLite(Trip trip) {
+
+        boolean done = tripDaoSQL.updateTrip(trip);
+        return done;
     }
 }

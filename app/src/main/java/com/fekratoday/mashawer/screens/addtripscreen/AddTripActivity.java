@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
-import com.fekratoday.mashawer.model.database.TripDaoSQL;
 import com.fekratoday.mashawer.utilities.AlarmHelper;
+import com.fekratoday.mashawer.utilities.CheckInternetConnection;
 import com.fekratoday.mashawer.utilities.DatePickerFragment;
 import com.fekratoday.mashawer.utilities.TimePickerFragment;
 import com.google.android.gms.common.api.Status;
@@ -40,7 +40,7 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
     private double startPointLatitude, startPointLongitude, endPointLatitude, endPointLongitude;
     private List<Trip.Note> noteList;
     private Trip trip;
-    private TripDaoSQL tripDaoSQL;
+    private AddTripContract addTripContract;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +51,26 @@ public class AddTripActivity extends AppCompatActivity implements TimePickerDial
         noteList = new ArrayList<>();
         calendar = Calendar.getInstance();
         trip = new Trip();
-        tripDaoSQL = new TripDaoSQL(this);
+        addTripContract = new AddTripPresenterImpl(this);
+        initPlaceSearch();
 
         findViewById(R.id.btnAdd).setOnClickListener(v -> {
             if (checkData()) {
-                int tripId = tripDaoSQL.insertTrip(trip);
+                int tripId = addTripContract.addTripSQLite(trip);
                 if (tripId > -1) {
-                    Toast.makeText(this, String.valueOf(tripId), Toast.LENGTH_SHORT).show();
                     AlarmHelper.setAlarm(this, tripId, calendar);
                     Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
-//                    finish();
+                    finish();
+                    if (CheckInternetConnection.getInstance(this).checkInternet()) {
+
+                        /* Error when add trip */
+                        addTripContract.addTripFirebase(trip);
+
+                    }
                 }
             }
         });
 
-        initPlaceSearch();
 
     }
 

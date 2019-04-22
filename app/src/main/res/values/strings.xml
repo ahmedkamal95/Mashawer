@@ -7,10 +7,10 @@
     <string name="userName">User Name</string>
     <string name="password">Password</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="createAccount">\u0020Create Account</string>
-    <string name="haveAccount">Have an Account? \u0020</string>
-    <string name="login">\u0020Log in</string>
-    <string name="notMemberYet">Not a member yet? \u0020</string>
+    <string name="createAccount">Create Account</string>
+    <string name="haveAccount">Have an Account?</string>
+    <string name="login">Log in</string>
+    <string name="notMemberYet">Not a member yet?</string>
     <string name="or">OR</string>
     <string name="loginOrSignup">Log in or Sign up with</string>
     <string name="loginOrcreate">Log in or Create account using email</string>

@@ -6,15 +6,15 @@ public interface AlarmContract {
 
     interface View {
         void showMap();
-
-        void startFloatingWidget();
     }
 
     interface Presenter {
         void startTrip(Trip trip);
 
-        void snoozeTrip(Trip trip, int tripId);
+        void snoozeTrip(Trip trip);
 
-        void cancelTrip(Trip trip, int tripId);
+        void cancelTrip(Trip trip);
+
+        Trip getTrip(int tripId);
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -12,9 +13,9 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fekratoday.mashawer.R;
+import com.fekratoday.mashawer.model.database.TripDaoFirebase;
+import com.fekratoday.mashawer.model.database.TripDaoSQL;
 import com.fekratoday.mashawer.screens.loginscreen.LoginContract;
-import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragment;
-import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragmentPresenterImpl;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.Objects;
+
 public class LoginServices implements LoginServicesInterface {
 
     private static LoginServices instance = null;
@@ -38,19 +41,21 @@ public class LoginServices implements LoginServicesInterface {
     private CallbackManager mCallbackManager;
     private LoginContract.View view;
     private LoginContract.Presenter loginPresenter;
-    SharedPreferences userData;
-    SharedPreferences.Editor editor;
-    FirebaseUser user;
-    String userId;
+    private SharedPreferences userData;
+    private SharedPreferences.Editor editor;
+    private FirebaseUser user;
+    private String userId;
+    private Context context;
+    private TripDaoFirebase tripDaoFirebase;
+    private TripDaoSQL tripDaoSQL;
 
     private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter) {
         this.view = view;
         this.loginPresenter = loginPresenter;
         mAuth = FirebaseAuth.getInstance();
-//        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE); need context
+        context = (Context) view;
+        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
         editor = userData.edit();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        userId = user.getUid();
     }
 
     public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter) {
@@ -71,7 +76,7 @@ public class LoginServices implements LoginServicesInterface {
                         }
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        loginPresenter.toast("Authentication failed.");
+                        loginPresenter.toast(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
     }
@@ -97,30 +102,25 @@ public class LoginServices implements LoginServicesInterface {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithEmail:success");
                         loginPresenter.login(mAuth.getCurrentUser());
-                        if(userData.getString("userId", null).equals(userId)){
-
-                        }else {
-                            editor.putString("userId", userId);
-                            editor.commit();
-                        }
+                        checkUserId();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        loginPresenter.toast("Authentication failed.");
+                        loginPresenter.toast(Objects.requireNonNull(task.getException()).getMessage());
                     }
                 });
     }
 
     @Override
-    public void signInWithGoogle(MainLoginFragment mainLoginFragment, MainLoginFragmentPresenterImpl mainLoginFragmentPresenter) {
+    public void signInWithGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(mainLoginFragment.getString(R.string.default_web_client_id))
+                .requestIdToken(((Activity)view).getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient((Activity) view, gso);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        mainLoginFragmentPresenter.startActivityForResult(signInIntent, RC_SIGN_IN);
+        loginPresenter.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -148,7 +148,7 @@ public class LoginServices implements LoginServicesInterface {
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
+                Log.e(TAG, "facebook:onError", error);
                 loginPresenter.toast("Error");
             }
         });
@@ -165,9 +165,10 @@ public class LoginServices implements LoginServicesInterface {
             if (task.isSuccessful()) {
                 Log.d(TAG, "signInWithCredential:success");
                 loginPresenter.login(mAuth.getCurrentUser());
+                checkUserId();
             } else {
                 Log.w(TAG, "signInWithCredential:failure", task.getException());
-                loginPresenter.toast("Authentication failed.");
+                loginPresenter.toast(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
@@ -193,6 +194,26 @@ public class LoginServices implements LoginServicesInterface {
     @Override
     public FirebaseUser isLoggedIn() {
         return mAuth.getCurrentUser();
+    }
+
+    private void checkUserId() {
+        tripDaoFirebase = new TripDaoFirebase();
+        tripDaoSQL = new TripDaoSQL(context);
+        user = mAuth.getCurrentUser();
+        userId = user.getUid();
+        /*if(userData.getString("userId", null).equals(userId)){
+            if(tripDaoSQL.getAllTrips().size() > tripDaoFirebase.getAllTrips().size()){
+                //remove firbase
+            }
+        }else {
+            editor.putString("userId", userId);
+            editor.commit();
+            tripDaoSQL.deleteAllTrips();
+            for(Trip trip: tripDaoFirebase.getAllTrips()){
+                tripDaoSQL.insertTrip(trip);
+            }
+
+        }*/
     }
 
 }
