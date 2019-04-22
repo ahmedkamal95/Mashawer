@@ -27,27 +27,27 @@
             android:animateLayoutChanges="true">
 
             <TextView
-                android:id="@+id/noteTitle"
+                android:id="@+id/noteTitleHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="@string/TripNotes"
-                app:layout_constraintEnd_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
+                app:layout_constraintEnd_toEndOf="@+id/imageView2History"
+                app:layout_constraintTop_toBottomOf="@+id/dividerHistory" />
 
             <ImageButton
-                android:id="@+id/expandBtn"
+                android:id="@+id/expandBtnHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:contentDescription="expand"
-                app:layout_constraintBottom_toTopOf="@+id/divider"
+                app:layout_constraintBottom_toTopOf="@+id/dividerHistory"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/round_keyboard_arrow_down_24px" />
 
             <TextView
-                android:id="@+id/tripName"
+                android:id="@+id/tripNameHistory"
                 style="@android:style/Widget.DeviceDefault.Light.TextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -56,30 +56,30 @@
                 android:text="TextView"
                 android:textSize="@dimen/TripNameSize"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imageView2History"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/divider"
+                android:id="@+id/dividerHistory"
                 android:layout_width="260dp"
                 android:layout_height="1dp"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/colorButtonNormal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintStart_toEndOf="@+id/imageView2History"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2History" />
 
             <TextView
-                android:id="@+id/tripLine"
+                android:id="@+id/tripLineHistory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/tripName"
-                app:layout_constraintTop_toBottomOf="@+id/tripName" />
+                app:layout_constraintStart_toStartOf="@+id/tripNameHistory"
+                app:layout_constraintTop_toBottomOf="@+id/tripNameHistory" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageView2History"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,64 +87,33 @@
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
-                android:id="@+id/tripTime"
+                android:id="@+id/tripTimeHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
-                app:layout_constraintStart_toStartOf="@+id/tripLine"
-                app:layout_constraintTop_toBottomOf="@+id/tripLine" />
+                app:layout_constraintStart_toStartOf="@+id/tripLineHistory"
+                app:layout_constraintTop_toBottomOf="@+id/tripLineHistory" />
 
             <LinearLayout
-                android:id="@+id/notesView"
+                android:id="@+id/notesViewHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="@+id/divider"
+                app:layout_constraintEnd_toEndOf="@+id/dividerHistory"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tripTime"
-                app:layout_constraintTop_toTopOf="@+id/noteTitle"></LinearLayout>
-
-            <ImageButton
-                android:id="@+id/deleteBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/divider"
-                app:layout_constraintTop_toBottomOf="@+id/notesView"
-                app:srcCompat="@drawable/baseline_delete_24px" />
-
-            <ImageButton
-                android:id="@+id/editBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@null"
-                app:layout_constraintBottom_toBottomOf="@+id/deleteBtn"
-                app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
-                app:srcCompat="@drawable/baseline_edit_24px" />
-
-            <ImageButton
-                android:id="@+id/startBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@null"
-                app:layout_constraintBottom_toBottomOf="@+id/editBtn"
-                app:layout_constraintEnd_toStartOf="@+id/editBtn"
-                app:srcCompat="@drawable/baseline_play_arrow_24px" />
+                app:layout_constraintStart_toStartOf="@+id/tripTimeHistory"
+                app:layout_constraintTop_toTopOf="@+id/noteTitleHistory"></LinearLayout>
 
             <android.support.constraint.Group
-                android:id="@+id/group"
+                android:id="@+id/groupHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="startBtn , editBtn , deleteBtn , notesView , noteTitle, divider" />
+                app:constraint_referenced_ids="notesViewHistory , noteTitleHistory, dividerHistory" />
 
         </android.support.constraint.ConstraintLayout>
- </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+
 </android.support.constraint.ConstraintLayout>

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
 import com.fekratoday.mashawer.model.database.TripDaoSQL;
-import com.fekratoday.mashawer.screens.homescreen.adapters.TripsViewAdapter;
+import com.fekratoday.mashawer.screens.homescreen.adapters.UpcomingTripsViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class TripsHistoryFragment extends Fragment {
 
         manager = new LinearLayoutManager(getActivity());
         tripsView.setLayoutManager(manager);
-        tripsAdapter = new TripsViewAdapter(getActivity(),tripList);
+        tripsAdapter = new UpcomingTripsViewAdapter(getActivity(),tripList);
         tripsView.setAdapter(tripsAdapter);
         return tripHistoryFragmentView;
     }
