@@ -146,6 +146,8 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        bubblesManager.recycle();
+        if (bubblesManager != null) {
+            bubblesManager.recycle();
+        }
     }
 }
