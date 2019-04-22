@@ -39,7 +39,7 @@ public class TripsHistoryPresenterImpl implements TripsHistoryContract {
     @Override
     public List<Trip> getallTripsSQLite() {
 
-        List<Trip> tripList = tripDaoSQL.getAllTrips();
+        List<Trip> tripList = tripDaoSQL.getAllHistoryTrips();
         return tripList;
     }
 }

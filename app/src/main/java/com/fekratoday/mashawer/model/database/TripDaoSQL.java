@@ -159,6 +159,46 @@ public class TripDaoSQL {
         return tripsList;
     }
 
+    public List<Trip> getAllHistoryTrips() {
+        open();
+        List<Trip> tripsList = new ArrayList<>();
+
+        Cursor cursor = database.query(MyDBHelper.TRIP_TABLE, allColumns,
+                MyDBHelper.TRIP_STATE + " = ?",
+                new String[]{String.valueOf(true)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+
+            while (!cursor.isAfterLast()) {
+                Trip trip = cursorToTrip(cursor);
+                tripsList.add(trip);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        close();
+        return tripsList;
+    }
+
+    public List<Trip> getAllUpcommingTrips() {
+        open();
+        List<Trip> tripsList = new ArrayList<>();
+
+        Cursor cursor = database.query(MyDBHelper.TRIP_TABLE, allColumns,
+                MyDBHelper.TRIP_STATE + " = ?",
+                new String[]{String.valueOf(false)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+
+            while (!cursor.isAfterLast()) {
+                Trip trip = cursorToTrip(cursor);
+                tripsList.add(trip);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        close();
+        return tripsList;
+    }
+
     public Trip getTripById(int tripId) {
         open();
         Trip trip = null;

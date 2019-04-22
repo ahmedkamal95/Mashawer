@@ -21,10 +21,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class TripsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class UpcomingTripsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Trip> tripList;
     private Activity currentActivity;
-    public TripsViewAdapter(FragmentActivity activity, List<Trip> tripList) {
+    public UpcomingTripsViewAdapter(FragmentActivity activity, List<Trip> tripList) {
         this.tripList = tripList;
         currentActivity = activity;
     }
