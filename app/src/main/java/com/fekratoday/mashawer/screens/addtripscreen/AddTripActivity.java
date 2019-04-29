@@ -62,7 +62,7 @@ public class AddTripActivity extends AppCompatActivity {
         addTripContract = new AddTripPresenterImpl(this);
 
         noteList = new ArrayList<>();
-        
+
         calendar = Calendar.getInstance();
         calendarReturn = Calendar.getInstance();
         trip = new Trip();
@@ -120,7 +120,7 @@ public class AddTripActivity extends AppCompatActivity {
                             if (tripIdReturn > -1) {
                                 AlarmHelper.setAlarm(this, tripIdReturn, calendarReturn);
                                 if (CheckInternetConnection.getInstance(this).checkInternet()) {
-                                    trip.setId(tripIdReturn);
+                                    tripReturn.setId(tripIdReturn);
                                     addTripContract.addTripFirebase(tripReturn);
                                 }
                             }

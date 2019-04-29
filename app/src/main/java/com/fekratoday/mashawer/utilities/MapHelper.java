@@ -76,7 +76,6 @@ public class MapHelper {
         bubbleView.setOnBubbleClickListener(bubble -> {
             Toast.makeText(context, "Clicked !",
                     Toast.LENGTH_SHORT).show();
-            String action;
 //            Intent intent = new Intent(context, DynamicLayout.class);
 //            context.startActivity(intent);
         });

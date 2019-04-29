@@ -76,74 +76,17 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
         player.release();
     }
 
-   /* @Override
-    public void showMap() {
-        Intent mapIntent = new Intent("android.intent.action.VIEW",
-                Uri.parse("http://maps.google.com/maps?saddr=" + trip.getStartPointLatitude() + "," + trip.getStartPointLongitude()
-                        + "&daddr=" + trip.getEndPointLatitude() + "," + trip.getEndPointLongitude()));
-        mapIntent.setPackage("com.google.android.apps.maps");
-        if (mapIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
-            mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(mapIntent);
-        } else {
-            Toast.makeText(getApplicationContext(), "Not found maps application", Toast.LENGTH_SHORT).show();
-        }
-        showFloatingWidget(trip.getNotesList());
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopMediaPlayer();
+        presenter.snoozeTrip(trip);
         finish();
     }
-
-    private void showFloatingWidget(List<Trip.Note> notesList) {
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, MY_PERMISSION);
-            }
-        } else {
-            Intent intent = new Intent(this, Service.class);
-            startService(intent);
-        }
-        initializeBubblesManager();
-        addNewBubble();
-    }
-
-    private void initializeBubblesManager() {
-        bubblesManager = new BubblesManager.Builder(this)
-                .setTrashLayout(R.layout.notification_trash_layout)
-                .setInitializationCallback(this::addNewBubble)
-                .build();
-        bubblesManager.initialize();
-    }
-
-    private void addNewBubble() {
-        BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(AlarmActivity.this).inflate(R.layout.notification_layout, null);
-        bubbleView.setOnBubbleRemoveListener(bubble -> {
-        });
-        bubbleView.setOnBubbleClickListener(bubble -> {
-            Toast.makeText(getApplicationContext(), "Clicked !",
-                    Toast.LENGTH_SHORT).show();
-//                for(Trip.Note note : notesList) {
-//                    CheckBox checkBox = new CheckBox(getApplicationContext());
-//                    checkBox.setId(note.getId());
-//                    checkBox.setText(note.getNoteBody());
-//                    layout.addView(checkBox);
-//                    checkBox.setOnCheckedChangeListener((CompoundButton, button)->{
-//                        if(button){
-//                            note.setDoneState(true);
-//                        }
-//                    });
-//                }
-        });
-        bubbleView.setShouldStickToWall(true);
-        bubblesManager.addBubble(bubbleView, 60, 20);
-    }*/
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*if (bubblesManager != null) {
-            bubblesManager.recycle();
-        }*/
+
     }
 }
