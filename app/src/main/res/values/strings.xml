@@ -38,5 +38,6 @@
     <string name="twoWay">Two Way</string>
     <string name="noTripsFound">No Trips Found</string>
     <string name="delete">delete</string>
+    <string name="emptyNotes">Empty Notes</string>
 
 </resources>

@@ -24,7 +24,7 @@ public class NoteDaoSQL {
             MyDBHelper.DONE_STATE,
             MyDBHelper.NOTE_TRIP_ID};
 
-    NoteDaoSQL(Context context) {
+    public NoteDaoSQL(Context context) {
         this.context = context;
         myDBHelper = new MyDBHelper(context);
     }
@@ -42,7 +42,7 @@ public class NoteDaoSQL {
         myDBHelper.close();
     }
 
-    int insertNote(Trip.Note note, int tripId) {
+    public int insertNote(Trip.Note note, int tripId) {
         open();
         ContentValues values = new ContentValues();
         values.put(MyDBHelper.NOTE_BODY, note.getNoteBody());
@@ -77,7 +77,7 @@ public class NoteDaoSQL {
         return id > -1;
     }
 
-    void deleteNote(int noteID) {
+    public void deleteNote(int noteID) {
         open();
         database.delete(MyDBHelper.NOTE_TABLE, MyDBHelper.NOTE_ID
                 + " = ?", new String[]{String.valueOf(noteID)});
@@ -130,5 +130,9 @@ public class NoteDaoSQL {
         note.setDoneState(Boolean.parseBoolean(cursor.getString(2)));
         note.setTripId(cursor.getInt(3));
         return note;
+    }
+
+    public void onDestroy() {
+        context = null;
     }
 }

@@ -11,4 +11,8 @@ public interface AddTripContract {
     void updateTripFirebase(Trip trip);
 
     boolean updateTripSQLite(Trip trip);
+
+    void addNote(Trip.Note note, int tripId);
+
+    void deleteNote(int noteId);
 }

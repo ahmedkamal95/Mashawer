@@ -4,18 +4,20 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.screens.addtripscreen.adapters.AddNoteAdapter;
 import com.fekratoday.mashawer.utilities.AlarmHelper;
 import com.fekratoday.mashawer.utilities.CheckInternetConnection;
 import com.google.android.gms.common.api.Status;
@@ -36,6 +38,9 @@ public class AddTripActivity extends AppCompatActivity {
     private EditText edtTripName;
     private Button addTrip;
     private Switch switchTwoWay;
+    private RecyclerView recyclerNoteList;
+    private AddNoteAdapter addNoteAdapter;
+    private EditText edtNoteView;
     private String tripName, startPoint, endPoint;
     private int hour = -1, minute = -1, day = -1, month = -1, year = -1;
     private int hourReturn = -1, minuteReturn = -1, dayReturn = -1, monthReturn = -1, yearReturn = -1;
@@ -54,21 +59,25 @@ public class AddTripActivity extends AppCompatActivity {
         initViews();
         initPlaceSearch();
 
+        addTripContract = new AddTripPresenterImpl(this);
+
         noteList = new ArrayList<>();
+        
         calendar = Calendar.getInstance();
         calendarReturn = Calendar.getInstance();
         trip = new Trip();
         trip.setOneWayTrip(true);
         tripReturn = new Trip();
         tripReturn.setOneWayTrip(true);
-        addTripContract = new AddTripPresenterImpl(this);
 
         tripEdit = (Trip) getIntent().getSerializableExtra("trip");
         if (tripEdit != null) {
             isEditable = true;
+            setAdapter();
             setTripEdit();
         } else {
             isEditable = false;
+            setAdapter();
         }
 
         switchTwoWay.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -145,6 +154,14 @@ public class AddTripActivity extends AppCompatActivity {
         tripDateReturn = findViewById(R.id.tripDateFieldReturn);
         switchTwoWay = findViewById(R.id.switchTwoWay);
         addTrip = findViewById(R.id.btnAdd);
+        recyclerNoteList = findViewById(R.id.recyclerNoteList);
+        edtNoteView = findViewById(R.id.noteField);
+    }
+
+    private void setAdapter(){
+        addNoteAdapter = new AddNoteAdapter(this, noteList,addTripContract,isEditable);
+        recyclerNoteList.setLayoutManager(new LinearLayoutManager(this));
+        recyclerNoteList.setAdapter(addNoteAdapter);
     }
 
     private void initPlaceSearch() {
@@ -263,13 +280,8 @@ public class AddTripActivity extends AppCompatActivity {
         tripTime.setText(tripEdit.getHour() + ":" + tripEdit.getMinute());
         tripDate.setText(tripEdit.getDay() + "/" + tripEdit.getMonth() + "/" + tripEdit.getYear());
         if (!tripEdit.getNotesList().isEmpty()) {
-            for (Trip.Note note : tripEdit.getNotesList()) {
-                TextView noteAddedNote = new TextView(AddTripActivity.this);
-                LinearLayout noteListView = findViewById(R.id.noteList);
-                noteAddedNote.setText(note.getNoteBody());
-                noteList.add(note);
-                noteListView.addView(noteAddedNote);
-            }
+            noteList.addAll(tripEdit.getNotesList());
+            addNoteAdapter.notifyDataSetChanged();
         }
         switchTwoWay.setVisibility(View.GONE);
         calendar.set(Calendar.YEAR, tripEdit.getYear());
@@ -296,19 +308,18 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     public void addNote(View v) {
-        EditText edtNoteView = findViewById(R.id.noteField);
-        TextView noteAddedNote = new TextView(AddTripActivity.this);
-        LinearLayout noteListView = findViewById(R.id.noteList);
         String noteText = edtNoteView.getText().toString().trim();
         if (noteText.equals("")) {
             edtNoteView.setError("Please Enter Note");
         } else {
-            noteAddedNote.setText(noteText);
             Trip.Note note = new Trip.Note();
             note.setNoteBody(noteText);
             noteList.add(note);
-            noteListView.addView(noteAddedNote);
+            addNoteAdapter.notifyDataSetChanged();
             edtNoteView.setText("");
+            if (isEditable) {
+                addTripContract.addNote(note, tripEdit.getId());
+            }
         }
     }
 
@@ -372,4 +383,5 @@ public class AddTripActivity extends AppCompatActivity {
         };
         new TimePickerDialog(AddTripActivity.this, listener, calendarReturn.get(Calendar.HOUR_OF_DAY), calendarReturn.get(Calendar.MINUTE), DateFormat.is24HourFormat(AddTripActivity.this)).show();
     }
+
 }
