@@ -4,8 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -30,35 +32,46 @@ public class AddTripActivity extends AppCompatActivity {
 
     private PlaceAutocompleteFragment fragStartPoint, fragEndPoint;
     private Calendar calendar, calendarReturn;
-    private TextView tripTimeReturn, tripDateReturn;
+    private TextView tripTime, tripDate, tripTimeReturn, tripDateReturn;
     private EditText edtTripName;
+    private Button addTrip;
+    private Switch switchTwoWay;
     private String tripName, startPoint, endPoint;
     private int hour = -1, minute = -1, day = -1, month = -1, year = -1;
     private int hourReturn = -1, minuteReturn = -1, dayReturn = -1, monthReturn = -1, yearReturn = -1;
     private double startPointLatitude, startPointLongitude, endPointLatitude, endPointLongitude;
     private List<Trip.Note> noteList;
-    private Trip trip, tripReturn;
+    private Trip trip, tripReturn, tripEdit;
     private AddTripContract addTripContract;
+    private boolean isEditable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
 
-        edtTripName = findViewById(R.id.edtTripName);
+        setupToolbar();
+        initViews();
+        initPlaceSearch();
+
         noteList = new ArrayList<>();
         calendar = Calendar.getInstance();
         calendarReturn = Calendar.getInstance();
         trip = new Trip();
+        trip.setOneWayTrip(true);
         tripReturn = new Trip();
+        tripReturn.setOneWayTrip(true);
         addTripContract = new AddTripPresenterImpl(this);
-        initPlaceSearch();
 
-        tripTimeReturn = findViewById(R.id.tripTimeFieldReturn);
-        tripDateReturn = findViewById(R.id.tripDateFieldReturn);
+        tripEdit = (Trip) getIntent().getSerializableExtra("trip");
+        if (tripEdit != null) {
+            isEditable = true;
+            setTripEdit();
+        } else {
+            isEditable = false;
+        }
 
-        Switch sw = findViewById(R.id.switchTwoWay);
-        sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        switchTwoWay.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 tripTimeReturn.setVisibility(View.VISIBLE);
                 tripDateReturn.setVisibility(View.VISIBLE);
@@ -70,35 +83,68 @@ public class AddTripActivity extends AppCompatActivity {
             }
         });
 
-
-        findViewById(R.id.btnAdd).setOnClickListener(v -> {
+        addTrip.setOnClickListener(v -> {
             if (checkData()) {
-                int tripId = addTripContract.addTripSQLite(trip);
-                if (tripId > -1) {
-                    AlarmHelper.setAlarm(this, tripId, calendar);
-                    Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
-                    if (CheckInternetConnection.getInstance(this).checkInternet()) {
-                        trip.setId(tripId);
-                        addTripContract.addTripFirebase(trip);
+                if (isEditable) {
+                    if (addTripContract.updateTripSQLite(trip)) {
+                        AlarmHelper.setAlarm(this, trip.getId(), calendar);
+                        Toast.makeText(this, "Trip Updated", Toast.LENGTH_SHORT).show();
+                        if (CheckInternetConnection.getInstance(this).checkInternet()) {
+                            addTripContract.addTripFirebase(trip);
+                        }
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Error Trip Not Updated", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    int tripId = addTripContract.addTripSQLite(trip);
+                    if (tripId > -1) {
+                        AlarmHelper.setAlarm(this, tripId, calendar);
+                        Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
+                        if (CheckInternetConnection.getInstance(this).checkInternet()) {
+                            trip.setId(tripId);
+                            addTripContract.addTripFirebase(trip);
+                        }
 
-                    if (!trip.isOneWayTrip()) {
-                        int tripIdReturn = addTripContract.addTripSQLite(tripReturn);
-                        if (tripIdReturn > -1) {
-                            AlarmHelper.setAlarm(this, tripIdReturn, calendarReturn);
-                            if (CheckInternetConnection.getInstance(this).checkInternet()) {
-                                trip.setId(tripIdReturn);
-                                addTripContract.addTripFirebase(tripReturn);
+                        if (!trip.isOneWayTrip()) {
+                            int tripIdReturn = addTripContract.addTripSQLite(tripReturn);
+                            if (tripIdReturn > -1) {
+                                AlarmHelper.setAlarm(this, tripIdReturn, calendarReturn);
+                                if (CheckInternetConnection.getInstance(this).checkInternet()) {
+                                    trip.setId(tripIdReturn);
+                                    addTripContract.addTripFirebase(tripReturn);
+                                }
                             }
                         }
-                    }
 
-                    finish();
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Error Trip Not Added", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
+    }
 
+    /**
+     * Setting Toolbar
+     */
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.addTrip);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        setSupportActionBar(toolbar);
+    }
+
+    private void initViews() {
+        edtTripName = findViewById(R.id.edtTripName);
+        tripTime = findViewById(R.id.tripTimeField);
+        tripDate = findViewById(R.id.tripDateField);
+        tripTimeReturn = findViewById(R.id.tripTimeFieldReturn);
+        tripDateReturn = findViewById(R.id.tripDateFieldReturn);
+        switchTwoWay = findViewById(R.id.switchTwoWay);
+        addTrip = findViewById(R.id.btnAdd);
     }
 
     private void initPlaceSearch() {
@@ -210,6 +256,44 @@ public class AddTripActivity extends AppCompatActivity {
         }
     }
 
+    private void setTripEdit() {
+        edtTripName.setText(tripEdit.getName());
+        fragStartPoint.setText(tripEdit.getStartPoint());
+        fragEndPoint.setText(tripEdit.getEndPoint());
+        tripTime.setText(tripEdit.getHour() + ":" + tripEdit.getMinute());
+        tripDate.setText(tripEdit.getDay() + "/" + tripEdit.getMonth() + "/" + tripEdit.getYear());
+        if (!tripEdit.getNotesList().isEmpty()) {
+            for (Trip.Note note : tripEdit.getNotesList()) {
+                TextView noteAddedNote = new TextView(AddTripActivity.this);
+                LinearLayout noteListView = findViewById(R.id.noteList);
+                noteAddedNote.setText(note.getNoteBody());
+                noteList.add(note);
+                noteListView.addView(noteAddedNote);
+            }
+        }
+        switchTwoWay.setVisibility(View.GONE);
+        calendar.set(Calendar.YEAR, tripEdit.getYear());
+        calendar.set(Calendar.MONTH, tripEdit.getMonth());
+        calendar.set(Calendar.DAY_OF_MONTH, tripEdit.getDay());
+        calendar.set(Calendar.HOUR_OF_DAY, tripEdit.getHour());
+        calendar.set(Calendar.MINUTE, tripEdit.getMinute());
+        calendar.set(Calendar.SECOND, 0);
+
+        tripName = tripEdit.getName();
+        startPoint = tripEdit.getStartPoint();
+        startPointLatitude = tripEdit.getStartPointLatitude();
+        startPointLongitude = tripEdit.getStartPointLongitude();
+        endPointLatitude = tripEdit.getEndPointLatitude();
+        endPointLongitude = tripEdit.getEndPointLongitude();
+        endPoint = tripEdit.getEndPoint();
+        hour = tripEdit.getHour();
+        minute = tripEdit.getMinute();
+        day = tripEdit.getDay();
+        month = tripEdit.getMonth();
+        year = tripEdit.getYear();
+
+        trip.setId(tripEdit.getId());
+    }
 
     public void addNote(View v) {
         EditText edtNoteView = findViewById(R.id.noteField);
@@ -257,7 +341,7 @@ public class AddTripActivity extends AppCompatActivity {
             TextView time = findViewById(R.id.tripTimeField);
             time.setText(hourOfDay + ":" + minute1);
         };
-        new TimePickerDialog(AddTripActivity.this, listener, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(AddTripActivity.this)).show();
+        new TimePickerDialog(AddTripActivity.this, listener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(AddTripActivity.this)).show();
     }
 
     public void showDatePickerDialogReturn(View view) {
@@ -286,6 +370,6 @@ public class AddTripActivity extends AppCompatActivity {
 
             tripTimeReturn.setText(hourOfDay + ":" + minute);
         };
-        new TimePickerDialog(AddTripActivity.this, listener, calendarReturn.get(Calendar.HOUR), calendarReturn.get(Calendar.MINUTE), DateFormat.is24HourFormat(AddTripActivity.this)).show();
+        new TimePickerDialog(AddTripActivity.this, listener, calendarReturn.get(Calendar.HOUR_OF_DAY), calendarReturn.get(Calendar.MINUTE), DateFormat.is24HourFormat(AddTripActivity.this)).show();
     }
 }

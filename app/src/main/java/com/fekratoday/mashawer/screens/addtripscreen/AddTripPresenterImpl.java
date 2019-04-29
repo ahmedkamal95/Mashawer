@@ -18,9 +18,7 @@ public class AddTripPresenterImpl implements AddTripContract {
 
     @Override
     public void addTripFirebase(Trip trip) {
-
         tripDaoFirebase.insertTrip(trip);
-//        return inserted;
     }
 
     @Override
@@ -35,8 +33,6 @@ public class AddTripPresenterImpl implements AddTripContract {
 
     @Override
     public boolean updateTripSQLite(Trip trip) {
-
-        boolean done = tripDaoSQL.updateTrip(trip);
-        return done;
+        return tripDaoSQL.updateTrip(trip);
     }
 }

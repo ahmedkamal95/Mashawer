@@ -13,10 +13,6 @@ import com.fekratoday.mashawer.screens.homescreen.HomeActivity;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.LoginFragment;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragment;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.SignupFragment;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View, LoginCommunicator {
@@ -27,22 +23,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private LoginFragment loginFragment;
     private SignupFragment signupFragment;
     private long time;
-
-    private GoogleSignInClient mGoogleSignInClient;
+    private boolean check = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        FirebaseAuth.getInstance().signOut();
-        mGoogleSignInClient.signOut();
-
 
         presenter = new LoginPresenterImpl(this);
 
@@ -64,13 +50,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onStart();
         FirebaseUser user = presenter.onStart();
         if (user != null) {
+            check = true;
             login(user);
+        } else {
+            check = false;
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -78,7 +62,14 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         intent.putExtra("email", user.getEmail());
         intent.putExtra("username", user.getDisplayName());
+        if (!check) {
+            intent.putExtra("check", true);
+//            presenter.getAllTripsData();
+        } else {
+            intent.putExtra("check", false);
+        }
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -125,7 +116,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void onButtonFacebookClick(LoginButton btnFacebook) {
         presenter.onButtonFacebookClick(btnFacebook);
     }
-
 
     @Override
     public void onDestroy() {

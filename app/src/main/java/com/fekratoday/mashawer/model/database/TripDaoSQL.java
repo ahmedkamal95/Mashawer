@@ -79,7 +79,6 @@ public class TripDaoSQL {
 //        Trip newTrip = cursorToTrip(cursor);
 //        cursor.close();
 
-        /* Error when add trip */
 //        editor.putInt("tripsCount", getAllTrips().size());
 //        editor.commit();
 
@@ -112,7 +111,9 @@ public class TripDaoSQL {
             if (!trip.getNotesList().isEmpty()) {
                 NoteDaoSQL dao = new NoteDaoSQL(context);
                 for (Trip.Note note : trip.getNotesList()) {
-                    dao.updateNote(note);
+                    if (!dao.updateNote(note)){
+                        dao.insertNote(note,trip.getId());
+                    }
                 }
             }
         }
@@ -165,7 +166,7 @@ public class TripDaoSQL {
 
         Cursor cursor = database.query(MyDBHelper.TRIP_TABLE, allColumns,
                 MyDBHelper.TRIP_STATE + " = ?",
-                new String[]{String.valueOf(true)}, null, null, null);
+                new String[]{String.valueOf(1)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
 
             while (!cursor.isAfterLast()) {
@@ -185,7 +186,7 @@ public class TripDaoSQL {
 
         Cursor cursor = database.query(MyDBHelper.TRIP_TABLE, allColumns,
                 MyDBHelper.TRIP_STATE + " = ?",
-                new String[]{String.valueOf(false)}, null, null, null);
+                new String[]{String.valueOf(0)}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
 
             while (!cursor.isAfterLast()) {
@@ -243,5 +244,9 @@ public class TripDaoSQL {
 //            cursor.close();
 //        }
         return trip;
+    }
+
+    public void onDestroy() {
+        context = null;
     }
 }

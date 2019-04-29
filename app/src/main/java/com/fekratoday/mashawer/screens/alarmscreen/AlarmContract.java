@@ -5,7 +5,7 @@ import com.fekratoday.mashawer.model.beans.Trip;
 public interface AlarmContract {
 
     interface View {
-        void showMap();
+//        void showMap();
     }
 
     interface Presenter {

@@ -18,4 +18,6 @@ public interface LoginServicesInterface {
 
     FirebaseUser isLoggedIn();
 
+    void onDestroy();
+
 }

@@ -2,6 +2,8 @@ package com.fekratoday.mashawer.model.database;
 
 
 import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.screens.homescreen.HomeContract;
+import com.fekratoday.mashawer.screens.loginscreen.LoginContract;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -15,60 +17,94 @@ import java.util.List;
 
 public class TripDaoFirebase {
 
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    FirebaseUser user;
-    String userId;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private FirebaseUser user;
+    private String userId;
+    private LoginContract.Presenter loginPresenter;
+    private HomeContract homePresenter;
+    public boolean check = false;
 
     public TripDaoFirebase() {
+    }
 
+    public void setLoginPresenter(LoginContract.Presenter loginPresenter) {
+        this.loginPresenter = loginPresenter;
+    }
+
+    public void setHomePresenter(HomeContract homePresenter) {
+        this.homePresenter = homePresenter;
     }
 
     public void insertTrip(Trip trip) {
+        check = false;
         getDatabaseRef();
-        boolean inserted = false;
-        myRef.child("trip"+trip.getId()).setValue(trip);
-//        return inserted;
+        myRef.child("trip" + trip.getId()).setValue(trip);
     }
 
     public void updateTrip(Trip trip) {
+        check = false;
         getDatabaseRef();
-        boolean inserted = false;
-        myRef.child("trip"+trip.getId()).setValue(trip);
-//        return inserted;
+        myRef.child("trip" + trip.getId()).setValue(trip);
     }
 
     public void deleteTrip(Trip trip) {
+        check = false;
         getDatabaseRef();
-        myRef.child("trip"+trip.getId()).removeValue();
+        myRef.child("trip" + trip.getId()).removeValue();
 
     }
 
-    public List<Trip> getAllTrips() {
-
+    public void getAllTrips() {
         getDatabaseRef();
         List<Trip> allTrips = new ArrayList<>();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    allTrips.add(snapshot.getValue(Trip.class));
+                if (check) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        allTrips.add(snapshot.getValue(Trip.class));
+                    }
+                    homePresenter.setTripList(allTrips);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-        return allTrips;
     }
 
-    private void getDatabaseRef(){
+    public void deleteAllTrips() {
+        check = false;
+        getDatabaseRef();
+        myRef.removeValue();
+        homePresenter.uploadTripToFirebase();
+
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    deleteTrip(snapshot.getValue(Trip.class));
+//                }
+//                homePresenter.uploadTripToFirebase();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+    }
+
+    private void getDatabaseRef() {
         user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users").child(userId).child("trips");
+    }
+
+    public void onDestroy() {
+        loginPresenter = null;
+        homePresenter = null;
     }
 }

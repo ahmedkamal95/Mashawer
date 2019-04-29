@@ -9,22 +9,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
-import com.fekratoday.mashawer.model.database.TripDaoSQL;
-import com.fekratoday.mashawer.screens.homescreen.adapters.UpcomingTripsViewAdapter;
+import com.fekratoday.mashawer.screens.homescreen.FragmentCommunicator;
+import com.fekratoday.mashawer.screens.homescreen.HomeCommunicator;
+import com.fekratoday.mashawer.screens.homescreen.adapters.HistoryTripsViewAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TripsHistoryFragment extends Fragment {
+public class TripsHistoryFragment extends Fragment implements FragmentCommunicator {
 
-    private RecyclerView.Adapter tripsAdapter;
-    private RecyclerView.LayoutManager manager;
-    private RecyclerView tripsView;
-    private List<Trip> tripList;
-    private TripsHistoryContract tripsHistoryContract;
-    private TripDaoSQL tripDaoSQL;
+    private HistoryTripsViewAdapter tripsAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView tripsRecyclerView;
+    private TextView txtNoTrips;
+    private HomeCommunicator communicator;
+    private List<Trip> tripList = new ArrayList<>();
 
     public TripsHistoryFragment() {
     }
@@ -33,20 +37,58 @@ public class TripsHistoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View tripHistoryFragmentView = inflater.inflate(R.layout.fragment_trips_history, container, false);
-        tripsView = tripHistoryFragmentView.findViewById(R.id.tripsView);
-        tripDaoSQL = new TripDaoSQL(getActivity());
-        tripList = new ArrayList<>();
-        tripList.addAll(tripDaoSQL.getAllTrips());
+        View view = inflater.inflate(R.layout.fragment_trips_history, container, false);
 
-//        tripsHistoryContract = new TripsHistoryPresenterImpl(getContext());
-//        tripList = tripsHistoryContract.getallTripsFirebase();
+        txtNoTrips = view.findViewById(R.id.txtNoTrips);
+        tripsRecyclerView = view.findViewById(R.id.tripsHistoryRecyclerView);
+        layoutManager = new LinearLayoutManager(getActivity());
+        tripsRecyclerView.setLayoutManager(layoutManager);
+        communicator = (HomeCommunicator) getActivity();
 
-        manager = new LinearLayoutManager(getActivity());
-        tripsView.setLayoutManager(manager);
-        tripsAdapter = new UpcomingTripsViewAdapter(getActivity(),tripList);
-        tripsView.setAdapter(tripsAdapter);
-        return tripHistoryFragmentView;
+        getTripHistoryList();
+
+        return view;
     }
 
+    private void getTripHistoryList() {
+        tripList.clear();
+        tripList = communicator.getAllHistoryTrips();
+        tripsAdapter = new HistoryTripsViewAdapter(this.getActivity(), tripList);
+        tripsRecyclerView.setAdapter(tripsAdapter);
+
+        if (tripList.isEmpty()) {
+            txtNoTrips.setVisibility(View.VISIBLE);
+        } else {
+            txtNoTrips.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        notifyChange();
+    }
+
+    @Override
+    public void setNotifyChange() {
+        notifyChange();
+    }
+
+    private void notifyChange(){
+        tripList.clear();
+        tripList.addAll(communicator.getAllHistoryTrips());
+        tripsAdapter.notifyDataSetChanged();
+
+        if (tripList.isEmpty()) {
+            txtNoTrips.setVisibility(View.VISIBLE);
+        } else {
+            txtNoTrips.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        communicator = null;
+    }
 }

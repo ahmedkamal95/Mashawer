@@ -11,15 +11,12 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
 import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
-import com.txusballesteros.bubbles.OnInitializedCallback;
 
 import java.util.List;
 
@@ -28,8 +25,6 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
     private AlarmContract.Presenter presenter;
     private MediaPlayer player;
     private Trip trip;
-    private BubblesManager bubblesManager;
-    private int MY_PERMISSION = 2006;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +76,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
         player.release();
     }
 
-    @Override
+   /* @Override
     public void showMap() {
         Intent mapIntent = new Intent("android.intent.action.VIEW",
                 Uri.parse("http://maps.google.com/maps?saddr=" + trip.getStartPointLatitude() + "," + trip.getStartPointLongitude()
@@ -109,8 +104,8 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
             Intent intent = new Intent(this, Service.class);
             startService(intent);
         }
-            initializeBubblesManager();
-            addNewBubble();
+        initializeBubblesManager();
+        addNewBubble();
     }
 
     private void initializeBubblesManager() {
@@ -123,7 +118,8 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
 
     private void addNewBubble() {
         BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(AlarmActivity.this).inflate(R.layout.notification_layout, null);
-        bubbleView.setOnBubbleRemoveListener(bubble -> { });
+        bubbleView.setOnBubbleRemoveListener(bubble -> {
+        });
         bubbleView.setOnBubbleClickListener(bubble -> {
             Toast.makeText(getApplicationContext(), "Clicked !",
                     Toast.LENGTH_SHORT).show();
@@ -141,13 +137,13 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
         });
         bubbleView.setShouldStickToWall(true);
         bubblesManager.addBubble(bubbleView, 60, 20);
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (bubblesManager != null) {
+        /*if (bubblesManager != null) {
             bubblesManager.recycle();
-        }
+        }*/
     }
 }

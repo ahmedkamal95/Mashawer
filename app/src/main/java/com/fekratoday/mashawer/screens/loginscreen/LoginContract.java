@@ -3,9 +3,12 @@ package com.fekratoday.mashawer.screens.loginscreen;
 import android.content.Intent;
 
 import com.facebook.login.widget.LoginButton;
+import com.fekratoday.mashawer.model.beans.Trip;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.MainLoginFragment;
 import com.fekratoday.mashawer.screens.loginscreen.fragments.SignupFragment;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 public interface LoginContract {
 
@@ -38,5 +41,9 @@ public interface LoginContract {
         void onButtonFacebookClick(LoginButton btnFacebook);
 
         FirebaseUser onStart();
+
+        void getAllTripsData();
+
+        void setTripList(List<Trip> allTrips);
     }
 }

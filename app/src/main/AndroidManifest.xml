@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
 
     <application
@@ -24,9 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".screens.loginscreen.LoginActivity"
-            android:noHistory="true">
+        <activity android:name=".screens.loginscreen.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +34,7 @@
 
         <activity android:name=".screens.splashscreen.SplashScreenActivity" />
         <activity android:name=".screens.homescreen.HomeActivity" />
-        <activity android:name=".screens.addtripscreen.AddTripActivity"/>
+        <activity android:name=".screens.addtripscreen.AddTripActivity" />
 
         <activity
             android:name=".screens.alarmscreen.AlarmActivity"

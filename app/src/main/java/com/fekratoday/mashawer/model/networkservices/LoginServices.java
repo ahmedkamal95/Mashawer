@@ -33,7 +33,7 @@ import java.util.Objects;
 
 public class LoginServices implements LoginServicesInterface {
 
-    private static LoginServices instance = null;
+//    private static LoginServices instance = null;
     private static final String PRENS_NAME = "UserData";
     private static final String TAG = "LoginServices";
     private static final int RC_SIGN_IN = 1;
@@ -49,21 +49,21 @@ public class LoginServices implements LoginServicesInterface {
     private TripDaoFirebase tripDaoFirebase;
     private TripDaoSQL tripDaoSQL;
 
-    private LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter) {
+    public LoginServices(LoginContract.View view, LoginContract.Presenter loginPresenter) {
         this.view = view;
         this.loginPresenter = loginPresenter;
         mAuth = FirebaseAuth.getInstance();
         context = (Context) view;
-        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
-        editor = userData.edit();
+//        userData = context.getSharedPreferences(PRENS_NAME, Context.MODE_PRIVATE);
+//        editor = userData.edit();
     }
 
-    public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter) {
-        if (instance == null) {
-            instance = new LoginServices(view, loginPresenter);
-        }
-        return instance;
-    }
+//    public static LoginServices getInstance(LoginContract.View view, LoginContract.Presenter loginPresenter) {
+//        if (instance == null) {
+//            instance = new LoginServices(view, loginPresenter);
+//        }
+//        return instance;
+//    }
 
     @Override
     public void createUserWithEmailAndPassword(String email, String password, String userName) {
@@ -194,6 +194,11 @@ public class LoginServices implements LoginServicesInterface {
     @Override
     public FirebaseUser isLoggedIn() {
         return mAuth.getCurrentUser();
+    }
+
+    @Override
+    public void onDestroy() {
+        view = null;
     }
 
     private void checkUserId() {

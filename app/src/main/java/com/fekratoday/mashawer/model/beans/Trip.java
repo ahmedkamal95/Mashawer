@@ -48,6 +48,26 @@ public class Trip implements Serializable {
         this.notesList = notesList;
     }
 
+    public void setAll(Trip trip){
+        this.id = trip.getId();
+        this.name = trip.getName();
+        this.startPoint = trip.getStartPoint();
+        this.startPointLatitude = trip.getStartPointLatitude();
+        this.startPointLongitude = trip.getStartPointLongitude();
+        this.endPoint = trip.getEndPoint();
+        this.endPointLatitude = trip.getEndPointLatitude();
+        this.endPointLongitude = trip.getEndPointLongitude();
+        this.hour = trip.getHour();
+        this.minute = trip.getMinute();
+        this.day = trip.getDay();
+        this.month = trip.getMonth();
+        this.year = trip.getYear();
+        this.oneWayTrip = trip.isOneWayTrip();
+        this.repeated = trip.isRepeated();
+        this.tripState = trip.isTripState();
+        this.notesList = trip.getNotesList();
+    }
+
     public int getId() {
         return id;
     }
@@ -184,7 +204,7 @@ public class Trip implements Serializable {
         this.notesList = notesList;
     }
 
-    public static class Note {
+    public static class Note implements Serializable{
 
         private int id;
         private String noteBody;
