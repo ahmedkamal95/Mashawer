@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
 import com.fekratoday.mashawer.model.beans.Trip;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,9 @@ public class TripDaoSQL {
     public int insertTrip(Trip trip) {
         open();
         ContentValues values = new ContentValues();
+        if (trip.getId() > 0) {
+            values.put(MyDBHelper.TRIP_ID, trip.getId());
+        }
         values.put(MyDBHelper.NAME, trip.getName());
         values.put(MyDBHelper.START_POINT, trip.getStartPoint());
         values.put(MyDBHelper.START_POINT_LATITUDE, trip.getStartPointLatitude());
@@ -65,23 +70,15 @@ public class TripDaoSQL {
         values.put(MyDBHelper.REPEATED, trip.isRepeated());
         values.put(MyDBHelper.TRIP_STATE, trip.isTripState());
         int id = (int) database.insert(MyDBHelper.TRIP_TABLE, null, values);
-//        Cursor cursor = database.query(MyDBHelper.TRIP_TABLE,
-//                allColumns, MyDBHelper.TRIP_ID + " = " + id, null, null, null, null);
+
         if (trip.getNotesList() != null) {
             if (!trip.getNotesList().isEmpty()) {
                 NoteDaoSQL dao = new NoteDaoSQL(context);
                 for (Trip.Note note : trip.getNotesList()) {
-                    dao.insertNote(note,id);
+                    dao.insertNote(note, id);
                 }
             }
         }
-//        cursor.moveToFirst();
-//        Trip newTrip = cursorToTrip(cursor);
-//        cursor.close();
-
-//        editor.putInt("tripsCount", getAllTrips().size());
-//        editor.commit();
-
 
         close();
         return id;
@@ -111,8 +108,8 @@ public class TripDaoSQL {
             if (!trip.getNotesList().isEmpty()) {
                 NoteDaoSQL dao = new NoteDaoSQL(context);
                 for (Trip.Note note : trip.getNotesList()) {
-                    if (!dao.updateNote(note)){
-                        dao.insertNote(note,trip.getId());
+                    if (!dao.updateNote(note)) {
+                        dao.insertNote(note, trip.getId());
                     }
                 }
             }
@@ -135,8 +132,8 @@ public class TripDaoSQL {
         close();
     }
 
-    public void deleteAllTrips(){
-        for(Trip trip : getAllTrips()){
+    public void deleteAllTrips() {
+        for (Trip trip : getAllTrips()) {
             deleteTrip(trip.getId());
         }
     }
@@ -218,29 +215,29 @@ public class TripDaoSQL {
     private Trip cursorToTrip(Cursor cursor) {
         Trip trip = new Trip();
 //        if (cursor != null && cursor.moveToFirst()) {
-            int tripId = cursor.getInt(0);
-            trip.setId(tripId);
-            trip.setName(cursor.getString(1));
-            trip.setStartPoint(cursor.getString(2));
-            trip.setStartPointLatitude(cursor.getDouble(3));
-            trip.setStartPointLongitude(cursor.getDouble(4));
-            trip.setEndPoint(cursor.getString(5));
-            trip.setEndPointLatitude(cursor.getDouble(6));
-            trip.setEndPointLongitude(cursor.getDouble(7));
-            trip.setHour(cursor.getInt(8));
-            trip.setMinute(cursor.getInt(9));
-            trip.setDay(cursor.getInt(10));
-            trip.setMonth(cursor.getInt(11));
-            trip.setYear(cursor.getInt(12));
-            trip.setOneWayTrip(Boolean.parseBoolean(cursor.getString(13)));
-            trip.setRepeated(Boolean.parseBoolean(cursor.getString(14)));
-            trip.setTripState(Boolean.parseBoolean(cursor.getString(15)));
+        int tripId = cursor.getInt(0);
+        trip.setId(tripId);
+        trip.setName(cursor.getString(1));
+        trip.setStartPoint(cursor.getString(2));
+        trip.setStartPointLatitude(cursor.getDouble(3));
+        trip.setStartPointLongitude(cursor.getDouble(4));
+        trip.setEndPoint(cursor.getString(5));
+        trip.setEndPointLatitude(cursor.getDouble(6));
+        trip.setEndPointLongitude(cursor.getDouble(7));
+        trip.setHour(cursor.getInt(8));
+        trip.setMinute(cursor.getInt(9));
+        trip.setDay(cursor.getInt(10));
+        trip.setMonth(cursor.getInt(11));
+        trip.setYear(cursor.getInt(12));
+        trip.setOneWayTrip(Boolean.parseBoolean(cursor.getString(13)));
+        trip.setRepeated(Boolean.parseBoolean(cursor.getString(14)));
+        trip.setTripState(Boolean.parseBoolean(cursor.getString(15)));
 
-            NoteDaoSQL dao = new NoteDaoSQL(context);
-            List<Trip.Note> notesList = dao.getNotesOfTrip(tripId);
-            if (notesList != null) {
-                trip.setNotesList(notesList);
-            }
+        NoteDaoSQL dao = new NoteDaoSQL(context);
+        List<Trip.Note> notesList = dao.getNotesOfTrip(tripId);
+        if (notesList != null) {
+            trip.setNotesList(notesList);
+        }
 //            cursor.close();
 //        }
         return trip;

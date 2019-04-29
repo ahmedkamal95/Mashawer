@@ -1,30 +1,20 @@
 package com.fekratoday.mashawer.screens.alarmscreen;
 
-import android.app.Service;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
-import com.txusballesteros.bubbles.BubbleLayout;
-import com.txusballesteros.bubbles.BubblesManager;
-
-import java.util.List;
 
 public class AlarmActivity extends AppCompatActivity implements AlarmContract.View {
 
     private AlarmContract.Presenter presenter;
     private MediaPlayer player;
     private Trip trip;
+    private boolean isStoped = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +35,18 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
         alertBuilder.setTitle(getResources().getString(R.string.app_name))
                 .setMessage("Do you want to start " + trip.getName() + " trip?")
                 .setPositiveButton("Start", (dialogInterface, i) -> {
-                    stopMediaPlayer();
                     presenter.startTrip(trip);
+                    isStoped = true;
                     finish();
                 })
                 .setNeutralButton("Snooze", (dialogInterface, i) -> {
-                    stopMediaPlayer();
                     presenter.snoozeTrip(trip);
+                    isStoped = true;
                     finish();
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> {
-                    stopMediaPlayer();
                     presenter.cancelTrip(trip);
+                    isStoped = true;
                     finish();
                 })
                 .setIcon(getResources().getDrawable(R.mipmap.ic_launcher))
@@ -77,11 +67,13 @@ public class AlarmActivity extends AppCompatActivity implements AlarmContract.Vi
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         stopMediaPlayer();
-        presenter.snoozeTrip(trip);
-        finish();
+        if (!isStoped) {
+            presenter.snoozeTrip(trip);
+            finish();
+        }
     }
 
     @Override
