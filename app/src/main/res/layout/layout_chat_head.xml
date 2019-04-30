@@ -45,7 +45,7 @@
             android:layout_gravity="center"
             android:orientation="vertical"
             android:padding="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="5dp"
             app:cardElevation="2dp">
 
