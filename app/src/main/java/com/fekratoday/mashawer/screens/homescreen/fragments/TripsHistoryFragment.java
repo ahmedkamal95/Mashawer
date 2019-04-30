@@ -1,8 +1,10 @@
 package com.fekratoday.mashawer.screens.homescreen.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.fekratoday.mashawer.model.beans.Trip;
 import com.fekratoday.mashawer.screens.homescreen.FragmentCommunicator;
 import com.fekratoday.mashawer.screens.homescreen.HomeCommunicator;
 import com.fekratoday.mashawer.screens.homescreen.adapters.HistoryTripsViewAdapter;
+import com.fekratoday.mashawer.screens.tripshistroymapscreen.TripsHistoryMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
 
 public class TripsHistoryFragment extends Fragment implements FragmentCommunicator {
 
+    private FloatingActionButton btnMap;
     private HistoryTripsViewAdapter tripsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView tripsRecyclerView;
@@ -39,11 +43,17 @@ public class TripsHistoryFragment extends Fragment implements FragmentCommunicat
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trips_history, container, false);
 
+        btnMap = view.findViewById(R.id.btnMap);
         txtNoTrips = view.findViewById(R.id.txtNoTrips);
         tripsRecyclerView = view.findViewById(R.id.tripsHistoryRecyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         tripsRecyclerView.setLayoutManager(layoutManager);
         communicator = (HomeCommunicator) getActivity();
+
+        btnMap.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TripsHistoryMapActivity.class);
+            startActivity(intent);
+        });
 
         getTripHistoryList();
 

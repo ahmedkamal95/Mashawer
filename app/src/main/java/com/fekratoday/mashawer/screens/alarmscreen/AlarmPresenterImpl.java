@@ -3,6 +3,8 @@ package com.fekratoday.mashawer.screens.alarmscreen;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.fekratoday.mashawer.model.beans.Trip;
 import com.fekratoday.mashawer.model.database.TripDaoFirebase;

@@ -69,7 +69,6 @@ public class MapHelper {
                 ((Activity)context).finish();
 
     }
-
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == MY_PERMISSION) {

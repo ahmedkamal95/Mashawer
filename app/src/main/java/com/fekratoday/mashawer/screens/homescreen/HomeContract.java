@@ -20,4 +20,6 @@ public interface HomeContract {
     void setTripList(List<Trip> allTrips);
 
     void onDestroy();
+
+    void setAlarm();
 }

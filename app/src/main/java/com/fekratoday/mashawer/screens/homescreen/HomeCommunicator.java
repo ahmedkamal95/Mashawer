@@ -21,4 +21,6 @@ public interface HomeCommunicator {
     List<Trip> getAllHistoryTrips();
 
     void setNotifyChange();
+
+    void setAlarm();
 }

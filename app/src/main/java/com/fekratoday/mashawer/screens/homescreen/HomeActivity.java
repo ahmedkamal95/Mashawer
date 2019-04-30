@@ -164,6 +164,11 @@ public class HomeActivity extends AppCompatActivity implements HomeCommunicator 
     }
 
     @Override
+    public void setAlarm() {
+        presenter.setAlarm();
+    }
+
+    @Override
     public void sync() {
         presenter.sync();
     }

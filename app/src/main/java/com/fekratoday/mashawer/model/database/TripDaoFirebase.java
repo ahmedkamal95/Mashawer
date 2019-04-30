@@ -58,7 +58,7 @@ public class TripDaoFirebase {
     public void getAllTrips() {
         getDatabaseRef();
         List<Trip> allTrips = new ArrayList<>();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (check) {
@@ -80,25 +80,13 @@ public class TripDaoFirebase {
         getDatabaseRef();
         myRef.removeValue();
         homePresenter.uploadTripToFirebase();
-
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    deleteTrip(snapshot.getValue(Trip.class));
-//                }
-//                homePresenter.uploadTripToFirebase();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
     }
 
     private void getDatabaseRef() {
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userId = user.getUid();
+        if (user != null) {
+            userId = user.getUid();
+        }
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users").child(userId).child("trips");
     }
