@@ -59,7 +59,7 @@ public class NoteDaoSQL {
         return id;
     }
 
-    boolean updateNote(Trip.Note note){
+    public boolean updateNote(Trip.Note note){
         open();
         ContentValues values = new ContentValues();
         values.put(MyDBHelper.NOTE_BODY, note.getNoteBody());

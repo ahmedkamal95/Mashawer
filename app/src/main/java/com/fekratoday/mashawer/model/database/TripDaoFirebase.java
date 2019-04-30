@@ -82,6 +82,11 @@ public class TripDaoFirebase {
         homePresenter.uploadTripToFirebase();
     }
 
+    public void updateNote(Trip.Note note, int position){
+        getDatabaseRef();
+        myRef.child("trip" + note.getTripId()).child("notesList").child(String.valueOf(position)).setValue(note);
+    }
+
     private void getDatabaseRef() {
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

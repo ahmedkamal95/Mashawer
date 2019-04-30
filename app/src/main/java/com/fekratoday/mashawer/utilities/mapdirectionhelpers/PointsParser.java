@@ -72,7 +72,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
                 LatLng position = new LatLng(lat, lng);
                 points.add(position);
             }
-            if (colorIndex > color.length) {
+            if (colorIndex >= color.length) {
                 colorIndex = 0;
             }
             // Adding all the points in the route to LineOptions

@@ -1,4 +1,4 @@
-package com.fekratoday.mashawer.screens.homescreen.adapters;
+package com.fekratoday.mashawer.utilities;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,20 +7,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
+import com.fekratoday.mashawer.model.database.NoteDaoSQL;
+import com.fekratoday.mashawer.model.database.TripDaoFirebase;
 
 import java.util.List;
 
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
+public class NotesWidgetAdapter extends RecyclerView.Adapter<NotesWidgetAdapter.NotesViewHolder> {
 
     private List<Trip.Note> notes;
     private Context context;
+    private NoteDaoSQL noteDaoSQL;
+    private TripDaoFirebase tripDaoFirebase;
 
-    public NotesAdapter(Context context, List<Trip.Note> notes) {
+    public NotesWidgetAdapter(Context context, List<Trip.Note> notes) {
         this.context = context;
         this.notes = notes;
+        noteDaoSQL = new NoteDaoSQL(context);
+        tripDaoFirebase = new TripDaoFirebase();
     }
 
     @NonNull
@@ -35,13 +42,23 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     public void onBindViewHolder(@NonNull NotesViewHolder notesViewHolder, int position) {
         final Trip.Note note = notes.get(position);
 
-        notesViewHolder.checkNote.setEnabled(false);
         notesViewHolder.checkNote.setText(note.getNoteBody());
-        if (note.getDoneState()) {
-            notesViewHolder.checkNote.setChecked(true);
-        } else {
-            notesViewHolder.checkNote.setChecked(false);
-        }
+
+        notesViewHolder.checkNote.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                note.setDoneState(true);
+                noteDaoSQL.updateNote(note);
+                if (CheckInternetConnection.getInstance(context).checkInternet()) {
+                    tripDaoFirebase.updateNote(note,position);
+                }
+            } else {
+                note.setDoneState(false);
+                noteDaoSQL.updateNote(note);
+                if (CheckInternetConnection.getInstance(context).checkInternet()) {
+                    tripDaoFirebase.updateNote(note,position);
+                }
+            }
+        });
     }
 
     @Override

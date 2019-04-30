@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
@@ -51,8 +52,12 @@ public class TripsHistoryFragment extends Fragment implements FragmentCommunicat
         communicator = (HomeCommunicator) getActivity();
 
         btnMap.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), TripsHistoryMapActivity.class);
-            startActivity(intent);
+            if (tripList.isEmpty()){
+                Toast.makeText(getActivity(), "No Trips Found", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity(), TripsHistoryMapActivity.class);
+                startActivity(intent);
+            }
         });
 
         getTripHistoryList();

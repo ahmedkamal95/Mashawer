@@ -56,18 +56,18 @@ public class TripsHistoryMapActivity extends AppCompatActivity implements OnMapR
         for (Trip trip : tripList) {
             startPoint = new LatLng(trip.getStartPointLatitude(), trip.getStartPointLongitude());
             endPoint = new LatLng(trip.getEndPointLatitude(), trip.getEndPointLongitude());
-            if (index > markerColor.length) {
+            if (index >= markerColor.length) {
                 index = 0;
             }
             MarkerOptions startMarkerOptions = new MarkerOptions();
             startMarkerOptions.position(startPoint);
-            startMarkerOptions.title("Start From Here");
+            startMarkerOptions.title(trip.getName() + " Start From Here");
             startMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(markerColor[index]));
             mMap.addMarker(startMarkerOptions);
 
             MarkerOptions endMarkerOptions = new MarkerOptions();
             endMarkerOptions.position(endPoint);
-            endMarkerOptions.title("End Here");
+            endMarkerOptions.title(trip.getName() + " End Here");
             endMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(markerColor[index]));
             mMap.addMarker(endMarkerOptions);
 
@@ -78,7 +78,7 @@ public class TripsHistoryMapActivity extends AppCompatActivity implements OnMapR
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(startPoint));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10),5000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 5000, null);
 
     }
 

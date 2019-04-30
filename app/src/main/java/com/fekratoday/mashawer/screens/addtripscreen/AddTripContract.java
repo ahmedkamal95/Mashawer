@@ -15,4 +15,6 @@ public interface AddTripContract {
     void addNote(Trip.Note note, int tripId);
 
     void deleteNote(int noteId);
+
+    Trip getTrip(int tripId);
 }

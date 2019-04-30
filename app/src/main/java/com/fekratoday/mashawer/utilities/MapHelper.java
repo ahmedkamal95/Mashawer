@@ -7,28 +7,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Toast;
 
-import com.fekratoday.mashawer.R;
 import com.fekratoday.mashawer.model.beans.Trip;
-import com.fekratoday.mashawer.screens.alarmscreen.AlarmActivity;
-import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
 
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
-
 public class MapHelper {
-    
+
     private Context context;
     private Trip trip;
     private BubblesManager bubblesManager;
     private int MY_PERMISSION = 2006;
-    
-    public MapHelper(Context context, Trip trip){
+
+    public MapHelper(Context context, Trip trip) {
         this.context = context;
         this.trip = trip;
     }
@@ -44,67 +35,31 @@ public class MapHelper {
         } else {
             Toast.makeText(context, "Not found maps application", Toast.LENGTH_SHORT).show();
         }
-        showFloatingWidget(trip.getNotesList());
-        ((Activity)context).finish();
+        showFloatingWidget(trip.getId());
+        ((Activity) context).finish();
     }
 
-    private void showFloatingWidget(List<Trip.Note> notesList) {
+    private void showFloatingWidget(int tripId) {
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(context)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + context.getPackageName()));
-                ((Activity)context).startActivityForResult(intent, MY_PERMISSION);
+                ((Activity) context).startActivityForResult(intent, MY_PERMISSION);
             }
         } else {
             Intent intent = new Intent(context, Service.class);
-            ((Activity)context).startService(intent);
+            intent.putExtra("tripId", tripId);
+            context.startService(intent);
         }
-        initializeView();
-//        initializeBubblesManager();
-//        addNewBubble();
+        initializeView(tripId);
     }
-    private void initializeView() {
-                context.startService(new Intent(context, WidgetService.class));
-                ((Activity)context).finish();
+
+    private void initializeView(int tripId) {
+        Intent intent = new Intent(context, WidgetService.class);
+        intent.putExtra("tripId", tripId);
+        context.startService(intent);
+        ((Activity) context).finish();
 
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == MY_PERMISSION) {
-//
-//            //Check if the permission is granted or not.
-//            if (resultCode == RESULT_OK) {
-//                initializeView();
-//            } else { //Permission is not available
-//                Toast.makeText(context,"Draw over other app permission not available. Closing the application", Toast.LENGTH_SHORT).show();
-//
-//                ((Activity)context).finish();
-//            }
-//        } else {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
-//    }
-//    private void initializeBubblesManager() {
-//        bubblesManager = new BubblesManager.Builder(context)
-//                .setTrashLayout(R.layout.notification_trash_layout)
-//                .setInitializationCallback(this::addNewBubble)
-//                .build();
-//        bubblesManager.initialize();
-//    }
-//
-//    private void addNewBubble() {
-//        BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.notification_layout, null);
-//        bubbleView.setOnBubbleRemoveListener(bubble -> {
-//        });
-//        bubbleView.setOnBubbleClickListener(bubble -> {
-//            Toast.makeText(context, "Clicked !",
-//                    Toast.LENGTH_SHORT).show();
-//            String action;
-////            Intent intent = new Intent(context, DynamicLayout.class);
-////            context.startActivity(intent);
-//        });
-//        bubbleView.setShouldStickToWall(true);
-//        bubblesManager.addBubble(bubbleView, 60, 20);
-//    }
 }

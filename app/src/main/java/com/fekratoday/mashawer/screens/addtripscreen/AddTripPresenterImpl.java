@@ -48,4 +48,9 @@ public class AddTripPresenterImpl implements AddTripContract {
     public void deleteNote(int noteId) {
         noteDaoSQL.deleteNote(noteId);
     }
+
+    @Override
+    public Trip getTrip(int tripId) {
+        return tripDaoSQL.getTripById(tripId);
+    }
 }

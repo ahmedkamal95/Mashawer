@@ -99,7 +99,7 @@ public class AddTripActivity extends AppCompatActivity {
                         AlarmHelper.setAlarm(this, trip.getId(), calendar);
                         Toast.makeText(this, "Trip Updated", Toast.LENGTH_SHORT).show();
                         if (CheckInternetConnection.getInstance(this).checkInternet()) {
-                            addTripContract.addTripFirebase(trip);
+                            addTripContract.addTripFirebase(addTripContract.getTrip(trip.getId()));
                         }
                         finish();
                     } else {
@@ -111,8 +111,7 @@ public class AddTripActivity extends AppCompatActivity {
                         AlarmHelper.setAlarm(this, tripId, calendar);
                         Toast.makeText(this, "Trip Added", Toast.LENGTH_SHORT).show();
                         if (CheckInternetConnection.getInstance(this).checkInternet()) {
-                            trip.setId(tripId);
-                            addTripContract.addTripFirebase(trip);
+                            addTripContract.addTripFirebase(addTripContract.getTrip(tripId));
                         }
 
                         if (!trip.isOneWayTrip()) {
@@ -120,8 +119,7 @@ public class AddTripActivity extends AppCompatActivity {
                             if (tripIdReturn > -1) {
                                 AlarmHelper.setAlarm(this, tripIdReturn, calendarReturn);
                                 if (CheckInternetConnection.getInstance(this).checkInternet()) {
-                                    tripReturn.setId(tripIdReturn);
-                                    addTripContract.addTripFirebase(tripReturn);
+                                    addTripContract.addTripFirebase(addTripContract.getTrip(tripIdReturn));
                                 }
                             }
                         }
