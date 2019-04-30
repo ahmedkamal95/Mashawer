@@ -158,8 +158,8 @@ public class AddTripActivity extends AppCompatActivity {
         edtNoteView = findViewById(R.id.noteField);
     }
 
-    private void setAdapter(){
-        addNoteAdapter = new AddNoteAdapter(this, noteList,addTripContract,isEditable);
+    private void setAdapter() {
+        addNoteAdapter = new AddNoteAdapter(this, noteList, addTripContract, isEditable);
         recyclerNoteList.setLayoutManager(new LinearLayoutManager(this));
         recyclerNoteList.setAdapter(addNoteAdapter);
     }
@@ -197,6 +197,9 @@ public class AddTripActivity extends AppCompatActivity {
                 Toast.makeText(AddTripActivity.this, "error", Toast.LENGTH_SHORT).show();
             }
         });
+        AutocompleteFilter typeFilter1 = new AutocompleteFilter.Builder().setCountry("EG").build();
+        fragStartPoint.setFilter(typeFilter1);
+        fragEndPoint.setFilter(typeFilter1);
     }
 
     private boolean checkData() {
