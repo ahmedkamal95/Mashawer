@@ -68,7 +68,7 @@ public class HomePresenterImpl implements HomeContract {
 
     @Override
     public void setTripList(List<Trip> allTrips) {
-        if(sqlListCount< allTrips.size()) {
+        if(tripDaoSQL.getAllTrips().size()< allTrips.size()) {
 
             for (int i= sqlListCount; i<allTrips.size(); i++) {
                 tripDaoSQL.insertTrip(allTrips.get(i));

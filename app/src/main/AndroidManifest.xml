@@ -63,6 +63,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".utilities.DynamicLayout"/>
+
+        <service android:name=".utilities.WidgetService"></service>
 
         <meta-data
             android:name="com.google.android.gms.version"

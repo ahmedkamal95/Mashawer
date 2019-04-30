@@ -19,8 +19,8 @@ public class DynamicLayout extends AppCompatActivity {
     LayoutParams layoutParams;
     List<Trip.Note> notesList;
 
-    public DynamicLayout(List<Trip.Note> notesList) {
-        this.notesList = notesList;
+    public DynamicLayout() {
+
     }
 
 

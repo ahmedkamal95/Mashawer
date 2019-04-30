@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.fekratoday.mashawer.R;
@@ -17,6 +18,8 @@ import com.txusballesteros.bubbles.BubbleLayout;
 import com.txusballesteros.bubbles.BubblesManager;
 
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 public class MapHelper {
     
@@ -55,32 +58,54 @@ public class MapHelper {
             }
         } else {
             Intent intent = new Intent(context, Service.class);
-            context.startService(intent);
+            ((Activity)context).startService(intent);
         }
-        initializeBubblesManager();
-        addNewBubble();
+        initializeView();
+//        initializeBubblesManager();
+//        addNewBubble();
+    }
+    private void initializeView() {
+                context.startService(new Intent(context, WidgetService.class));
+                ((Activity)context).finish();
+
     }
 
-    private void initializeBubblesManager() {
-        bubblesManager = new BubblesManager.Builder(context)
-                .setTrashLayout(R.layout.notification_trash_layout)
-                .setInitializationCallback(this::addNewBubble)
-                .build();
-        bubblesManager.initialize();
-    }
-
-    private void addNewBubble() {
-        BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.notification_layout, null);
-        bubbleView.setOnBubbleRemoveListener(bubble -> {
-        });
-        bubbleView.setOnBubbleClickListener(bubble -> {
-            Toast.makeText(context, "Clicked !",
-                    Toast.LENGTH_SHORT).show();
-            String action;
-//            Intent intent = new Intent(context, DynamicLayout.class);
-//            context.startActivity(intent);
-        });
-        bubbleView.setShouldStickToWall(true);
-        bubblesManager.addBubble(bubbleView, 60, 20);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == MY_PERMISSION) {
+//
+//            //Check if the permission is granted or not.
+//            if (resultCode == RESULT_OK) {
+//                initializeView();
+//            } else { //Permission is not available
+//                Toast.makeText(context,"Draw over other app permission not available. Closing the application", Toast.LENGTH_SHORT).show();
+//
+//                ((Activity)context).finish();
+//            }
+//        } else {
+//            super.onActivityResult(requestCode, resultCode, data);
+//        }
+//    }
+//    private void initializeBubblesManager() {
+//        bubblesManager = new BubblesManager.Builder(context)
+//                .setTrashLayout(R.layout.notification_trash_layout)
+//                .setInitializationCallback(this::addNewBubble)
+//                .build();
+//        bubblesManager.initialize();
+//    }
+//
+//    private void addNewBubble() {
+//        BubbleLayout bubbleView = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.notification_layout, null);
+//        bubbleView.setOnBubbleRemoveListener(bubble -> {
+//        });
+//        bubbleView.setOnBubbleClickListener(bubble -> {
+//            Toast.makeText(context, "Clicked !",
+//                    Toast.LENGTH_SHORT).show();
+//            String action;
+////            Intent intent = new Intent(context, DynamicLayout.class);
+////            context.startActivity(intent);
+//        });
+//        bubbleView.setShouldStickToWall(true);
+//        bubblesManager.addBubble(bubbleView, 60, 20);
+//    }
 }
