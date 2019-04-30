@@ -127,7 +127,7 @@ public class NoteDaoSQL {
         Trip.Note note = new Trip.Note();
         note.setId(cursor.getInt(0));
         note.setNoteBody(cursor.getString(1));
-        note.setDoneState(Boolean.parseBoolean(cursor.getString(2)));
+        note.setDoneState(cursor.getInt(2));
         note.setTripId(cursor.getInt(3));
         return note;
     }

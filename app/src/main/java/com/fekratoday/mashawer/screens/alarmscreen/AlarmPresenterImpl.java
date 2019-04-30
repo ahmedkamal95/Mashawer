@@ -31,7 +31,7 @@ public class AlarmPresenterImpl implements AlarmContract.Presenter {
 
     @Override
     public void startTrip(Trip trip) {
-        trip.setTripState(true);
+        trip.setTripState(1);
         AlarmHelper.cancelAlarm((Context) view, trip.getId());
         notificationManager.cancel(trip.getId());
         tripDaoSQL.updateTrip(trip);

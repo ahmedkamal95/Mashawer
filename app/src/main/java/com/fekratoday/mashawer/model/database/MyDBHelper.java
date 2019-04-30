@@ -49,14 +49,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
             + DAY + " INTEGER, "
             + MONTH + " INTEGER, "
             + YEAR + " INTEGER, "
-            + ONE_WAY_TRIP + " BOOLEAN, "
-            + REPEATED + " BOOLEAN, "
-            + TRIP_STATE + " BOOLEAN);";
+            + ONE_WAY_TRIP + " INTEGER, "
+            + REPEATED + " INTEGER, "
+            + TRIP_STATE + " INTEGER);";
 
     private static final String SQL_CREATE_TABLE_NOTE = "CREATE TABLE " + NOTE_TABLE + "("
             + NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NOTE_BODY + " VARCHAR(255), "
-            + DONE_STATE + " BOOLEAN, "
+            + DONE_STATE + " INTEGER, "
             + NOTE_TRIP_ID + " INTEGER);";
 
     MyDBHelper(Context context) {

@@ -37,7 +37,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         notesViewHolder.checkNote.setEnabled(false);
         notesViewHolder.checkNote.setText(note.getNoteBody());
-        if (note.getDoneState()) {
+        if (note.getDoneState()==1) {
             notesViewHolder.checkNote.setChecked(true);
         } else {
             notesViewHolder.checkNote.setChecked(false);

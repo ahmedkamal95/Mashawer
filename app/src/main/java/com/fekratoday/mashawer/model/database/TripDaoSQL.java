@@ -229,9 +229,9 @@ public class TripDaoSQL {
         trip.setDay(cursor.getInt(10));
         trip.setMonth(cursor.getInt(11));
         trip.setYear(cursor.getInt(12));
-        trip.setOneWayTrip(Boolean.parseBoolean(cursor.getString(13)));
-        trip.setRepeated(Boolean.parseBoolean(cursor.getString(14)));
-        trip.setTripState(Boolean.parseBoolean(cursor.getString(15)));
+        trip.setOneWayTrip(cursor.getInt(13));
+        trip.setRepeated(cursor.getInt(14));
+        trip.setTripState(cursor.getInt(15));
 
         NoteDaoSQL dao = new NoteDaoSQL(context);
         List<Trip.Note> notesList = dao.getNotesOfTrip(tripId);

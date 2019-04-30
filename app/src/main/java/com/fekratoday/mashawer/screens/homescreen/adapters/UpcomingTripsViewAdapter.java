@@ -129,7 +129,7 @@ public class UpcomingTripsViewAdapter extends RecyclerView.Adapter<UpcomingTrips
         });
 
         tripViewHolder.imgBtnStart.setOnClickListener(v -> {
-            trip.setTripState(true);
+            trip.setTripState(1);
             tripDaoSQL.updateTrip(trip);
             if (CheckInternetConnection.getInstance(context).checkInternet()) {
                 tripDaoFirebase.updateTrip(trip);

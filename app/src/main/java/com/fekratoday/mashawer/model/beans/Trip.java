@@ -18,9 +18,9 @@ public class Trip implements Serializable {
     private int day;
     private int month;
     private int year;
-    private boolean oneWayTrip;
-    private boolean repeated;
-    private boolean tripState;
+    private int oneWayTrip;
+    private int repeated;
+    private int tripState;
     private List<Note> notesList;
 
     public Trip() {
@@ -28,7 +28,7 @@ public class Trip implements Serializable {
 
     public Trip(int id, String name, String startPoint, double startPointLatitude, double startPointLongitude,
                 String endPoint, double endPointLatitude, double endPointLongitude, int hour, int minute, int day,
-                int month, int year, boolean oneWayTrip, boolean repeated, boolean tripState, List<Note> notesList) {
+                int month, int year, int oneWayTrip, int repeated, int tripState, List<Note> notesList) {
         this.id = id;
         this.name = name;
         this.startPoint = startPoint;
@@ -172,27 +172,27 @@ public class Trip implements Serializable {
         this.year = year;
     }
 
-    public boolean isOneWayTrip() {
+    public int isOneWayTrip() {
         return oneWayTrip;
     }
 
-    public void setOneWayTrip(boolean oneWayTrip) {
+    public void setOneWayTrip(int oneWayTrip) {
         this.oneWayTrip = oneWayTrip;
     }
 
-    public boolean isRepeated() {
+    public int isRepeated() {
         return repeated;
     }
 
-    public void setRepeated(boolean repeated) {
+    public void setRepeated(int repeated) {
         this.repeated = repeated;
     }
 
-    public boolean isTripState() {
+    public int isTripState() {
         return tripState;
     }
 
-    public void setTripState(boolean tripState) {
+    public void setTripState(int tripState) {
         this.tripState = tripState;
     }
 
@@ -208,14 +208,14 @@ public class Trip implements Serializable {
 
         private int id;
         private String noteBody;
-        private boolean doneState;
+        private int doneState;
         private int tripId;
 
         public Note() {
 
         }
 
-        public Note(int id, String noteBody, boolean doneState, int tripId) {
+        public Note(int id, String noteBody, int doneState, int tripId) {
             this.id = id;
             this.noteBody = noteBody;
             this.doneState = doneState;
@@ -246,11 +246,11 @@ public class Trip implements Serializable {
             this.noteBody = noteBody;
         }
 
-        public boolean getDoneState() {
+        public int getDoneState() {
             return doneState;
         }
 
-        public void setDoneState(boolean doneState) {
+        public void setDoneState(int doneState) {
             this.doneState = doneState;
         }
 

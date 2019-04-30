@@ -46,13 +46,13 @@ public class NotesWidgetAdapter extends RecyclerView.Adapter<NotesWidgetAdapter.
 
         notesViewHolder.checkNote.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                note.setDoneState(true);
+                note.setDoneState(1);
                 noteDaoSQL.updateNote(note);
                 if (CheckInternetConnection.getInstance(context).checkInternet()) {
                     tripDaoFirebase.updateNote(note,position);
                 }
             } else {
-                note.setDoneState(false);
+                note.setDoneState(0);
                 noteDaoSQL.updateNote(note);
                 if (CheckInternetConnection.getInstance(context).checkInternet()) {
                     tripDaoFirebase.updateNote(note,position);

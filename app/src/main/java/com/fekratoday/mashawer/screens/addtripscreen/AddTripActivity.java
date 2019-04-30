@@ -66,9 +66,9 @@ public class AddTripActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         calendarReturn = Calendar.getInstance();
         trip = new Trip();
-        trip.setOneWayTrip(true);
+        trip.setOneWayTrip(1);
         tripReturn = new Trip();
-        tripReturn.setOneWayTrip(true);
+        tripReturn.setOneWayTrip(1);
 
         tripEdit = (Trip) getIntent().getSerializableExtra("trip");
         if (tripEdit != null) {
@@ -84,11 +84,11 @@ public class AddTripActivity extends AppCompatActivity {
             if (isChecked) {
                 tripTimeReturn.setVisibility(View.VISIBLE);
                 tripDateReturn.setVisibility(View.VISIBLE);
-                trip.setOneWayTrip(false);
+                trip.setOneWayTrip(0);
             } else {
                 tripTimeReturn.setVisibility(View.GONE);
                 tripDateReturn.setVisibility(View.GONE);
-                trip.setOneWayTrip(true);
+                trip.setOneWayTrip(1);
             }
         });
 
@@ -114,7 +114,7 @@ public class AddTripActivity extends AppCompatActivity {
                             addTripContract.addTripFirebase(addTripContract.getTrip(tripId));
                         }
 
-                        if (!trip.isOneWayTrip()) {
+                        if (trip.isOneWayTrip()==0) {
                             int tripIdReturn = addTripContract.addTripSQLite(tripReturn);
                             if (tripIdReturn > -1) {
                                 AlarmHelper.setAlarm(this, tripIdReturn, calendarReturn);
@@ -219,7 +219,7 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Enter Right Date", Toast.LENGTH_SHORT).show();
         } else {
 
-            if (!trip.isOneWayTrip()) {
+            if (trip.isOneWayTrip()==0) {
                 if (hourReturn == -1 || minuteReturn == -1) {
                     Toast.makeText(this, "Please Enter Return Time", Toast.LENGTH_SHORT).show();
                 } else if (dayReturn == -1 || monthReturn == -1 || yearReturn == -1) {
@@ -239,8 +239,8 @@ public class AddTripActivity extends AppCompatActivity {
                     tripReturn.setDay(dayReturn);
                     tripReturn.setMonth(monthReturn);
                     tripReturn.setYear(yearReturn);
-                    tripReturn.setTripState(false);
-                    tripReturn.setOneWayTrip(true);
+                    tripReturn.setTripState(0);
+                    tripReturn.setOneWayTrip(1);
                     if (!noteList.isEmpty()) {
                         tripReturn.setNotesList(noteList);
                     }
@@ -268,7 +268,7 @@ public class AddTripActivity extends AppCompatActivity {
         trip.setDay(day);
         trip.setMonth(month);
         trip.setYear(year);
-        trip.setTripState(false);
+        trip.setTripState(0);
         if (!noteList.isEmpty()) {
             trip.setNotesList(noteList);
         }
