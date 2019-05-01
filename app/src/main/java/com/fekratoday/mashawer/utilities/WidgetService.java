@@ -90,6 +90,11 @@ public class WidgetService extends Service {
             collapsedView.setVisibility(View.VISIBLE);
             expandedView.setVisibility(View.GONE);
         });
+        ImageView close_button1 = mChatHeadView.findViewById(R.id.close_button1);
+        close_button1.setOnClickListener(view -> {
+            collapsedView.setVisibility(View.VISIBLE);
+            expandedView.setVisibility(View.GONE);
+        });
 
         mChatHeadView.findViewById(R.id.root_container).setOnTouchListener(new View.OnTouchListener() {
             private int initialX;
