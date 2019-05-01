@@ -22,7 +22,6 @@ public class SignupFragment extends Fragment {
     private EditText edtEmailSignup, edtUserNameSignup, edtPasswordSignup, edtConfirmPasswordSignup;
     private String email, userName, password, confirmPassword;
     private Button btnCreateAccount, btnLoginSignupPage;
-    private Toolbar toolbar;
     private LoginCommunicator communicator;
 
     public SignupFragment() {
@@ -39,8 +38,6 @@ public class SignupFragment extends Fragment {
         edtConfirmPasswordSignup = view.findViewById(R.id.edtConfirmPasswordSignup);
         btnCreateAccount = view.findViewById(R.id.btnCreateAccount);
         btnLoginSignupPage = view.findViewById(R.id.btnLoginSignupPage);
-        toolbar = view.findViewById(R.id.toolbar);
-        setupToolbar();
 
         communicator = (LoginCommunicator) getActivity();
 
@@ -54,15 +51,6 @@ public class SignupFragment extends Fragment {
 
         return view;
 
-    }
-
-    /**
-     * Setting Toolbar
-     */
-    private void setupToolbar() {
-        toolbar.setTitle(R.string.createAccount);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
     }
 
     private boolean checkData() {

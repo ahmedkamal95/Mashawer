@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center">
@@ -26,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -44,8 +45,11 @@
                     android:id="@+id/textView9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:text="@string/TripInformation" />
+                    android:text="@string/TripInformation"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -62,9 +66,20 @@
                         android:id="@+id/edtTripName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@drawable/edittext_addtrip_background"
                         android:hint="@string/TripName"
                         android:inputType="text" />
                 </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="18dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/from"
+                    android:textSize="16sp" />
 
                 <fragment
                     android:id="@+id/fragStartPoint"
@@ -76,6 +91,16 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="18dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/to"
+                    android:textSize="16sp" />
 
                 <fragment
                     android:id="@+id/fragEndPoint"
@@ -114,8 +139,11 @@
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:text="@string/tripDateTime" />
+                    android:text="@string/tripDateTime"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tripDateField"
@@ -126,8 +154,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:background="?attr/editTextBackground"
+                    android:background="@drawable/edittext_addtrip_background"
                     android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical"
                     android:hint="@string/tripDate"
                     android:inputType="date"
@@ -144,8 +173,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:background="?attr/editTextBackground"
+                    android:background="@drawable/edittext_addtrip_background"
                     android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical"
                     android:hint="@string/tripTime"
                     android:inputType="time"
@@ -175,8 +205,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:background="?attr/editTextBackground"
+                    android:background="@drawable/edittext_addtrip_background"
                     android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical"
                     android:hint="@string/tripDate"
                     android:inputType="date"
@@ -194,8 +225,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:background="?attr/editTextBackground"
+                    android:background="@drawable/edittext_addtrip_background"
                     android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical"
                     android:hint="@string/tripTime"
                     android:inputType="time"
@@ -227,11 +259,13 @@
 
                 <TextView
                     android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
                     android:text="@string/tripNotes"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -263,17 +297,16 @@
 
                 <ImageButton
                     android:id="@+id/addNoteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginEnd="16dp"
                     android:background="@null"
-                    android:contentDescription="TODO"
                     android:onClick="addNote"
-                    android:text="Button"
+                    app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textInputLayout"
-                    app:srcCompat="@drawable/add_circle_ouline_24px" />
+                    app:srcCompat="@drawable/add_circle_ouline_24px"
+                    tools:ignore="ContentDescription" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/textInputLayout"
@@ -292,6 +325,7 @@
                         android:id="@+id/noteField"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@drawable/edittext_addtrip_background"
                         android:hint="@string/writeNote"
                         android:inputType="text" />
                 </android.support.design.widget.TextInputLayout>
@@ -308,6 +342,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/signup_button_state"
             android:text="@string/addTrip" />
 
     </LinearLayout>

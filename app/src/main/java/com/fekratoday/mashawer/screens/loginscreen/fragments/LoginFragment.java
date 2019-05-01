@@ -22,7 +22,6 @@ public class LoginFragment extends Fragment {
     private EditText edtEmailLogin, edtPasswordLogin;
     private String email, password;
     private Button btnLogin, btnSignupLoginPage;
-    private Toolbar toolbar;
     private LoginCommunicator communicator;
 
 
@@ -39,8 +38,6 @@ public class LoginFragment extends Fragment {
         edtPasswordLogin = view.findViewById(R.id.edtPasswordLogin);
         btnLogin = view.findViewById(R.id.btnLogin);
         btnSignupLoginPage = view.findViewById(R.id.btnSignupLoginPage);
-        toolbar = view.findViewById(R.id.toolbar);
-        setupToolbar();
 
         communicator = (LoginCommunicator) getActivity();
 
@@ -55,14 +52,6 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    /**
-     * Setting Toolbar
-     */
-    private void setupToolbar() {
-        toolbar.setTitle(R.string.login);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-    }
 
     private boolean checkData() {
         boolean check = false;

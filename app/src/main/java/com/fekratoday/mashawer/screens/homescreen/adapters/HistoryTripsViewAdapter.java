@@ -50,7 +50,8 @@ public class HistoryTripsViewAdapter extends RecyclerView.Adapter<HistoryTripsVi
         }
 
         tripViewHolder.txtTripName.setText(trip.getName());
-        tripViewHolder.txtTripLine.setText("From: " + trip.getStartPoint() + ",  To: " + trip.getEndPoint());
+        tripViewHolder.txtTripFrom.setText("From: " + trip.getStartPoint());
+        tripViewHolder.txtTripTo.setText("To: " + trip.getEndPoint());
         int day = trip.getDay();
         int mon = trip.getMonth();
         int year = trip.getYear();
@@ -100,7 +101,7 @@ public class HistoryTripsViewAdapter extends RecyclerView.Adapter<HistoryTripsVi
 
         CardView parentCardView;
         ImageButton imgBtnExpand, imgBtnDelete, imgBtnEdit, imgBtnStart;
-        TextView txtTripName, txtTripLine, txtTripTime, txtEmptyNotes;
+        TextView txtTripName, txtTripFrom, txtTripTo, txtTripTime, txtEmptyNotes;
         ImageView imgTrip;
         View divider;
         FrameLayout frameRecyclerNotes;
@@ -112,7 +113,8 @@ public class HistoryTripsViewAdapter extends RecyclerView.Adapter<HistoryTripsVi
             parentCardView = itemView.findViewById(R.id.parentCardView);
             imgBtnExpand = itemView.findViewById(R.id.imgBtnExpand);
             txtTripName = itemView.findViewById(R.id.txtTripName);
-            txtTripLine = itemView.findViewById(R.id.txtTripLine);
+            txtTripFrom = itemView.findViewById(R.id.txtTripFrom);
+            txtTripTo = itemView.findViewById(R.id.txtTripTo);
             txtTripTime = itemView.findViewById(R.id.txtTripTime);
             imgTrip = itemView.findViewById(R.id.imgTrip);
             divider = itemView.findViewById(R.id.divider);

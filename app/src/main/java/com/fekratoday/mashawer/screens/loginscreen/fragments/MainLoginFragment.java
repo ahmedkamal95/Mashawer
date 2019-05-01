@@ -29,7 +29,7 @@ public class MainLoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_login, container, false);
 
         btnFacebook = view.findViewById(R.id.btnFacebook);
-        SignInButton btnGoogle = view.findViewById(R.id.btnGoogle);
+        Button btnGoogle = view.findViewById(R.id.btnGoogle);
         Button btnMainLoginPage = view.findViewById(R.id.btnMainLoginPage);
         Button btnSignupMainPage = view.findViewById(R.id.btnSignupMainPage);
         ImageView imgLogo = view.findViewById(R.id.imgLogo);

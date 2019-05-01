@@ -91,6 +91,7 @@ public class HomeActivity extends AppCompatActivity implements HomeCommunicator 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
     }
 

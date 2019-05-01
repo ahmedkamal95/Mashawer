@@ -35,7 +35,9 @@ public class MapHelper {
         } else {
             Toast.makeText(context, "Not found maps application", Toast.LENGTH_SHORT).show();
         }
-        showFloatingWidget(trip.getId());
+        if (!trip.getNotesList().isEmpty()) {
+            showFloatingWidget(trip.getId());
+        }
         ((Activity) context).finish();
     }
 

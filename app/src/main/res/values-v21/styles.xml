@@ -6,18 +6,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <!--<item name="android:navigationBarColor">@color/colorPrimary</item>-->
     </style>
 
     <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:elevation">4dp</item>
     </style>
 
     <style name="FullScreen" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
+
 
 
 </resources>

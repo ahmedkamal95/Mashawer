@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@drawable/main_login_background"
     tools:context=".screens.loginscreen.fragments.MainLoginFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -31,7 +32,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/loginOrSignup"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/btnFacebook"
@@ -41,9 +44,10 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:visibility="gone" />
 
-        <com.google.android.gms.common.SignInButton
+        <Button
             android:id="@+id/btnGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +55,13 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/gradient_end"
+            android:drawableStart="@drawable/ic_google"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:background="@drawable/login_button_state"
+            android:text="@string/common_signin_button_text_long" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,9 +77,9 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:background="#000" />
+                android:background="@color/white" />
 
             <TextView
                 android:layout_width="0dp"
@@ -78,27 +88,17 @@
                 android:layout_weight="0.5"
                 android:gravity="center"
                 android:text="@string/or"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:background="#000" />
+                android:background="@color/white" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/loginOrcreate" />
 
         <Button
             android:id="@+id/btnMainLoginPage"
@@ -108,37 +108,20 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/login" />
+            android:background="@drawable/login_button_state"
+            android:text="@string/login"
+            android:textColor="@color/gradient_end" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btnSignupMainPage"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="center|end"
-                android:text="@string/notMemberYet" />
-
-            <Button
-                android:id="@+id/btnSignupMainPage"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="0.5"
-                android:background="@android:color/transparent"
-                android:gravity="center|start"
-                android:text="@string/createAccount"
-                android:textAllCaps="false"
-                android:textColor="@color/blue" />
-        </LinearLayout>
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/signup_button_state"
+            android:text="@string/signup"
+            android:textColor="@color/white" />
     </LinearLayout>
 </ScrollView>

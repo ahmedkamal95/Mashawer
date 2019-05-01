@@ -141,6 +141,7 @@ public class AddTripActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.addTrip);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
     }
 

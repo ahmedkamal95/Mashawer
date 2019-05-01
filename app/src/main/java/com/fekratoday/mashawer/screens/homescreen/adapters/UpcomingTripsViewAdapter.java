@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,8 @@ public class UpcomingTripsViewAdapter extends RecyclerView.Adapter<UpcomingTrips
         }
 
         tripViewHolder.txtTripName.setText(trip.getName());
-        tripViewHolder.txtTripLine.setText("From: " + trip.getStartPoint() + ",  To: " + trip.getEndPoint());
+        tripViewHolder.txtTripFrom.setText("From: " + trip.getStartPoint());
+        tripViewHolder.txtTripTo.setText("To: " + trip.getEndPoint());
         int day = trip.getDay();
         int mon = trip.getMonth();
         int year = trip.getYear();
@@ -159,7 +159,7 @@ public class UpcomingTripsViewAdapter extends RecyclerView.Adapter<UpcomingTrips
 
         CardView parentCardView;
         ImageButton imgBtnExpand, imgBtnDelete, imgBtnEdit, imgBtnStart;
-        TextView txtTripName, txtTripLine, txtTripTime, txtEmptyNotes;
+        TextView txtTripName, txtTripFrom, txtTripTo, txtTripTime, txtEmptyNotes;
         ImageView imgTrip;
         View divider;
         LinearLayout linearEditButtons;
@@ -172,7 +172,8 @@ public class UpcomingTripsViewAdapter extends RecyclerView.Adapter<UpcomingTrips
             parentCardView = itemView.findViewById(R.id.parentCardView);
             imgBtnExpand = itemView.findViewById(R.id.imgBtnExpand);
             txtTripName = itemView.findViewById(R.id.txtTripName);
-            txtTripLine = itemView.findViewById(R.id.txtTripLine);
+            txtTripFrom = itemView.findViewById(R.id.txtTripFrom);
+            txtTripTo = itemView.findViewById(R.id.txtTripTo);
             txtTripTime = itemView.findViewById(R.id.txtTripTime);
             imgTrip = itemView.findViewById(R.id.imgTrip);
             divider = itemView.findViewById(R.id.divider);
