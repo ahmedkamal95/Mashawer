@@ -6,18 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.fekratoday.mashawer.R;
-import com.fekratoday.mashawer.screens.homescreen.HomeActivity;
 import com.fekratoday.mashawer.screens.homescreen.HomeCommunicator;
 
 
 public class ProfileFragment extends Fragment {
 
     private TextView txtName, txtEmail;
-    private Button btnSync, btnLogout;
+    private ImageButton btnSync, btnLogout;
     private HomeCommunicator communicator;
 
     public ProfileFragment() {

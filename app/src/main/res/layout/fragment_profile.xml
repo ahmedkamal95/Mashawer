@@ -1,64 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".screens.homescreen.fragments.ProfileFragment">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/background_gradient" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:background="@color/colorPrimary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_gradient" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageButton
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
-                android:layout_height="78dp"
-                android:layout_gravity="right"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@android:color/transparent"
                 app:backgroundTint="@android:color/transparent"
-                app:elevation="0dp"
-                app:srcCompat="@drawable/ic_logout" />
+                app:srcCompat="@drawable/ic_logout"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="300dp"
-                android:layout_height="56dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/signup_button_background"
-                android:gravity="center_vertical"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/profile"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
@@ -66,56 +67,51 @@
                 android:textStyle="bold" />
 
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_launcher"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/rounded_shape"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/rounded_shape"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/btnSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="16dp"
+                app:backgroundTint="@android:color/transparent"
+                app:srcCompat="@drawable/ic_sync"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="176dp"
-            android:layout_height="176dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_launcher"/>
-
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:background="@drawable/rounded_shape"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/txtEmail"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:background="@drawable/rounded_shape"
-            android:textSize="18sp" />
-
-        <ImageButton
-            android:id="@+id/btnSync"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="16dp"
-            app:backgroundTint="@android:color/transparent"
-            app:elevation="0dp"
-            app:srcCompat="@drawable/ic_sync" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+    </FrameLayout>
+</ScrollView>
