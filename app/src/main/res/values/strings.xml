@@ -39,5 +39,6 @@
     <string name="noTripsFound">No Trips Found</string>
     <string name="delete">delete</string>
     <string name="emptyNotes">Empty Notes</string>
+    <string name="profile">Profile</string>
 
 </resources>
