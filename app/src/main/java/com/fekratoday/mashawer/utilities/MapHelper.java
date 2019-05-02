@@ -43,18 +43,18 @@ public class MapHelper {
 
     private void showFloatingWidget(int tripId) {
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (!Settings.canDrawOverlays(context)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
+//            if (!Settings.canDrawOverlays(context)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + context.getPackageName()));
                 ((Activity) context).startActivityForResult(intent, MY_PERMISSION);
-            }
+//            }
         } else {
-            Intent intent = new Intent(context, Service.class);
-            intent.putExtra("tripId", tripId);
-            context.startService(intent);
+//            Intent intent = new Intent(context, Service.class);
+//            intent.putExtra("tripId", tripId);
+//            context.startService(intent);
+            initializeView(tripId);
         }
-        initializeView(tripId);
     }
 
     private void initializeView(int tripId) {

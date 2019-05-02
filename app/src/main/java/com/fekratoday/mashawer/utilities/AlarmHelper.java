@@ -4,9 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.widget.Toast;
-
-import com.fekratoday.mashawer.model.beans.Trip;
 
 import java.util.Calendar;
 
@@ -21,7 +20,7 @@ public class AlarmHelper {
         intent.putExtra("tripId", tripId);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, tripId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (alarmManager != null) {
-            if (android.os.Build.VERSION.SDK_INT >= 19) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             } else {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

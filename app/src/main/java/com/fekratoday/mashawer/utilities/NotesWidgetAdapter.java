@@ -34,7 +34,7 @@ public class NotesWidgetAdapter extends RecyclerView.Adapter<NotesWidgetAdapter.
     @Override
     public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.layout_trip_note_row, viewGroup, false);
+        View view = inflater.inflate(R.layout.layout_widget_trip_note_row, viewGroup, false);
         return new NotesViewHolder(view);
     }
 
